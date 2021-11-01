@@ -21,5 +21,12 @@ export default StyleSheet.create({
     caixaTexto:{
         backgroundColor:'white', 
         width: 250,
+    },
+    switchConta:{
+        width: 340,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        //alignContent: 'baseline'
     }
 });

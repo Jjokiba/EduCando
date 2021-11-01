@@ -39,6 +39,7 @@ export default function App() {
     <TelaResponsiva>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Home' screenOptions={({ route, navigation}) => ({headerShown:false, headerStyle:{backgroundColor:cores.roxoFundo, boxShadow:'0'}})}>
+          
           <Stack.Screen name ='Home' component={TelaInicial} options={{}}/>
           <Stack.Screen name ='Registrar Adulto' component={RegistrarAdulto}/>
           <Stack.Screen name ='Registrar Criança' component={RegistrarCriança}/>

@@ -17,41 +17,45 @@ app.listen(3001, ()=> {
     console.log("Server Up")
 });
 
-
-app.get('/', (req, res) => {
-    let sql = "select * from cliente"
-
-    db.query(sql, (err, result) =>{
-        console.log(err);
-        console.log(result);
-    });
-});
-
 //#region  Crianças
 
 app.post('/registrarCrianca', (req, res)=>{
     const { nome_Crianca } = req.body;
-    const { dataNasc_crianca } = req.body;
+    const { dataNasc_Crianca } = req.body;
     const { email_Crianca } = req.body;
     const { senha_Crianca } = req.body;
 
-    let sql = "INSERT INTO crianca ( nome_Crianca, dataNasc_crianca, email_Crianca, senha_Crianca) VALUES (?, ?, ?, ?)"
+    let sql = "INSERT INTO crianca ( nome_Crianca, dataNasc_crianca, email_Crianca, senha_Crianca) VALUES (?, STR_TO_DATE(?, '%d-%m-%Y'), ?, ?)"
 
 
-    db.query(sql, [nome_Crianca, dataNasc_crianca, email_Crianca, senha_Crianca], (err, result) =>{
+    db.query(sql, [nome_Crianca, dataNasc_Crianca, email_Crianca, senha_Crianca], (err, result) =>{
         console.log('Erro: ' + err + "/nResultado:" + result);
-        return('Erro: ' + err + "/nResultado:" + result)
+        res.send(result);
     })
-    console.log(nome_Res);
 });
 
-app.get('/getCriancaById', (req, res)=>{
-    const { FK_CodCrianca } = req.body;
+app.post('/loginCrianca', (req, res)=>{
+    const { email_Crianca } = req.body;
+    const { senha_Crianca } = req.body;
 
-    let sql = "select * from crianca where CodCrianca = ?"
+    let sql = "SELECT * FROM crianca WHERE email_Crianca = ? AND senha_Crianca = ?"
 
 
-    db.query(sql, [FK_CodCrianca], (err, result) =>{
+    db.query(sql, [email_Crianca, senha_Crianca], (err, result) =>{
+        console.log('Erro: ' + err + "/nResultado:" + result);
+        if(result){
+            res.send(result);
+        } 
+    })
+});
+
+
+app.get('/getLastInsertId', (req, res)=>{
+
+    let sql = "SELECT LAST_INSERT_ID() as lastID;"
+
+
+    db.query(sql, [], (err, result) =>{
         console.log('Erro: ' + err + "/nResultado:" + result);
         if(err) res.send(err)
         else res.send(result)
@@ -63,6 +67,23 @@ app.get('/getCriancaById', (req, res)=>{
 //#endregion
 
 //#region  Responsaveis
+app.post('/loginAdulto', (req, res)=>{
+    const { email_Res } = req.body;
+    const { senha_Res } = req.body;
+
+    let sql = "SELECT * FROM responsavel WHERE email_Res = ? AND senha_Res = ?"
+
+
+    db.query(sql, [email_Res, senha_Res], (err, result) =>{
+        console.log('Erro: ' + err + "/nResultado:" + result);
+        if(result){
+            res.send(result);
+        } 
+        else{
+            res.send("Num acho nada filho")
+        }
+    })
+});
 
 app.post('/registrarAdulto', (req, res)=>{
     const { nome_Res } = req.body;

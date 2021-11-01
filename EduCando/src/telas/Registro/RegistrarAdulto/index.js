@@ -8,7 +8,15 @@ import Axios from  'axios';
 
 export default function RegistrarAdulto({ navigation }){
     const [values, SetValues] = useState();
-    
+    SetValues(() => (values = {
+        nome_Res: null,
+        email_Res: null,
+        senha_Res: null,
+        senha_Res_Confirma: null,
+        FK_CodCrianca: null
+    }));
+
+
     const handleChangeValues = (value, name) => { 
         SetValues((prevValue) => ({
             ...prevValue,
@@ -31,15 +39,6 @@ export default function RegistrarAdulto({ navigation }){
                 msg += "\nCriança não encontrada no banco de dados, certifique-se de cadastra-la primeiro\n";
                 validacao = false;
             }
-            /*
-            Axios.get('http://192.168.1.195:3001/getCriancaById', {FK_CodCrianca: values.FK_CodCrianca}).then((response) => {
-                console.log((response.data.length == 0));
-                if((response.data.length == 0)){
-                    
-                    msg += "\nCriança não encontrada no banco de dados, certifique-se de cadastra-la primeiro\n";
-                    validacao = false;
-                }
-            })*/
         }
 
         if(values.nome_Res == null){
