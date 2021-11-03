@@ -29,7 +29,7 @@ app.post('/registrarCrianca', (req, res)=>{
 
 
     db.query(sql, [nome_Crianca, dataNasc_Crianca, email_Crianca, senha_Crianca], (err, result) =>{
-        console.log('Erro: ' + err + "/nResultado:" + result);
+        console.log('Erro: ' + err + "\nResultado:" + result);
         res.send(result);
     })
 });
@@ -42,7 +42,7 @@ app.post('/loginCrianca', (req, res)=>{
 
 
     db.query(sql, [email_Crianca, senha_Crianca], (err, result) =>{
-        console.log('Erro: ' + err + "/nResultado:" + result);
+        console.log('Erro: ' + err + "\nResultado:" + result);
         if(result){
             res.send(result);
         } 
@@ -56,7 +56,7 @@ app.get('/getLastInsertId', (req, res)=>{
 
 
     db.query(sql, [], (err, result) =>{
-        console.log('Erro: ' + err + "/nResultado:" + result);
+        console.log('Erro: ' + err + "\nResultado:" + result);
         if(err) res.send(err)
         else res.send(result)
     })
@@ -71,16 +71,15 @@ app.post('/loginAdulto', (req, res)=>{
     const { email_Res } = req.body;
     const { senha_Res } = req.body;
 
-    let sql = "SELECT * FROM responsavel WHERE email_Res = ? AND senha_Res = ?"
-
+    let sql = "SELECT * FROM responsavel WHERE email_Res = ? AND senha_Res = ?";
 
     db.query(sql, [email_Res, senha_Res], (err, result) =>{
-        console.log('Erro: ' + err + "/nResultado:" + result);
+        console.log('Erro: ' + err + "\nResultado:" + result);
         if(result){
             res.send(result);
         } 
         else{
-            res.send("Num acho nada filho")
+            res.send("");
         }
     })
 });
@@ -95,7 +94,7 @@ app.post('/registrarAdulto', (req, res)=>{
 
 
     db.query(sql, [nome_Res, email_Res, senha_Res, FK_CodCrianca], (err, result) =>{
-        console.log('Erro: ' + err + "/nResultado:" + result);
+        console.log('Erro: ' + err + "\nResultado:" + result);
         res.send(result);
     })
     console.log(nome_Res);

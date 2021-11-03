@@ -20,8 +20,15 @@ import { cores } from './src/stylesCores.js';
 export default function App() {
   
   const [IsReady, SetIsReady] = useState(false);
-
+  const [user, setUser] = useState(null);
+  const accountLogin = null;
   const Stack = createNativeStackNavigator();
+
+  React.useEffect(() => {
+    setTimeout((() => {
+      //setUser({})
+    }), 1000)
+  }, [])
 
   const getFonts = async () => {
     await Font.loadAsync({
@@ -40,19 +47,27 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Home' screenOptions={({ route, navigation}) => ({headerShown:false, headerStyle:{backgroundColor:cores.roxoFundo, boxShadow:'0'}})}>
           
-          <Stack.Screen name ='Home' component={TelaInicial} options={{}}/>
-          <Stack.Screen name ='Registrar Adulto' component={RegistrarAdulto}/>
-          <Stack.Screen name ='Registrar Criança' component={RegistrarCriança}/>
-          <Stack.Screen name ='Login' component={LoginScreen}/>
-      {//
-      }
-      {//<RegistrarAdulto/>
-      
-      //<RegistrarCriança/>
-      }
-      {//<LoginScreen/>
-      //<TelaInicialAdulto/>
-      }
+        {user ? (
+          user.tipoConta ?( // adulto
+            <>
+              <Stack.Screen name ='Tela Inicial Adulto' component={TelaInicialAdulto} initialParams={{ setUser: setUser }}/>
+            </>
+          ) : (
+            <>
+              <Stack.Screen name ='Tela Inicial Crianca' component={'To Do'} initialParams={{ setUser: setUser }}/>
+            </>
+          )
+          
+        ) : (
+          <>
+            <Stack.Screen name ='Home' component={TelaInicial} options={{}}/>
+            <Stack.Screen name ='Registrar Adulto' component={RegistrarAdulto}/>
+            <Stack.Screen name ='Registrar Criança' component={RegistrarCriança}/>
+            <Stack.Screen name ='Login' component={LoginScreen} initialParams={{ setUser: setUser }}/>
+          </>
+        )
+        }
+        
         </Stack.Navigator>
       </NavigationContainer>
     </TelaResponsiva>

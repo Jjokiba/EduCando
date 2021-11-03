@@ -7,10 +7,11 @@ import styles from "./styles";
 
 import { useNavigation } from '@react-navigation/native';
 import Axios  from "axios";
+import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 
 //const { signIn } = React.useContext(AuthContext);
 
-export default function LoginScreen({ navigation }){
+export default function LoginScreen({ navigation, route }){
     const [tipoConta, SetCriancaAdulto] = useState(false);
     const [values, SetValues] = useState({
         email_Res: null,
@@ -31,25 +32,46 @@ export default function LoginScreen({ navigation }){
         //Alert.alert('Attention','AUTISMO');
         if(tipoConta == true) //Adulto-Login
         {
-            let result = await Axios.get('http://192.168.1.195:3001/loginAdulto', {
+            var result = await Axios.post('http://192.168.1.195:3001/loginAdulto', {
                 email_Res: values.email_Res,
                 senha_Res: values.senha_Res,  
             });
-            Alert.alert('Attention',result.data);
-            if(result.data[0] != null){
-                Alert.alert('Attention',result.data[0]);
+            //Alert.alert('Attention',result.data);
+            if(result.data != ''){
+                console.log(result.data[0])
+                result.data[0].tipoConta = tipoConta;
+                route.params.setUser(result.data[0]);
+                Alert.alert('Bem Vindo!','Seja bem vindo ao EduCando\n' + result.data[0].nome_Res );   
+            }
+            else{
+                Alert.alert('Atenção','Conta não encontrada',[
+                    {
+                      text: "Voltar",
+                      onPress: () => () => navigation.goBack(),
+                      style: "confirm",
+                    }]);   
             }
 
         }
         else
         {
-            let result = await Axios.get('http://192.168.1.195:3001/loginCrianca', {
+            let result = await Axios.post('http://192.168.1.195:3001/loginCrianca', {
                 email_Crianca: values.email_Crianca,
                 senha_Crianca: values.senha_Crianca,  
             });
-            Alert.alert('Attention',result.data);
-            if(result.data[0] != null){
-                Alert.alert('Attention',result.data[0]);
+            if(result.data != ''){
+                console.log(result.data[0])
+                result.data[0].tipoConta = tipoConta;
+                route.params.setUser(result.data[0]);
+                Alert.alert('Bem Vindo!','Seja bem vindo ao EduCando\n' + result.data[0].nome_Crianca );   
+            }
+            else{
+                Alert.alert('Atenção','Conta não encontrada',[
+                    {
+                      text: "Voltar",
+                      onPress: () => () => navigation.goBack(),
+                      style: "confirm",
+                    }]);   
             }
         }
     };
@@ -111,7 +133,7 @@ export default function LoginScreen({ navigation }){
                     <TextInput 
                             name={(tipoConta ? 'senha_Res' : 'senha_Crianca')}
                             placeholder={(tipoConta ? 'Senha do responsavel da crianca' : 'Senha da conta da criança')}
-                            onChangeText={e => handleChangeValues(e, (tipoConta ? 'email_Res' : 'email_Crianca'))}
+                            onChangeText={e => handleChangeValues(e, (tipoConta ? 'senha_Res' : 'senha_Crianca'))}
                          ></TextInput>
                     </View>
                     

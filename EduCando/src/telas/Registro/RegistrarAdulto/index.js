@@ -7,14 +7,14 @@ import styles from "./styles";
 import Axios from  'axios';
 
 export default function RegistrarAdulto({ navigation }){
-    const [values, SetValues] = useState();
-    SetValues(() => (values = {
+    const [values, SetValues] = useState(({
         nome_Res: null,
         email_Res: null,
         senha_Res: null,
         senha_Res_Confirma: null,
         FK_CodCrianca: null
     }));
+        
 
 
     const handleChangeValues = (value, name) => { 

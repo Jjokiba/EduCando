@@ -97,7 +97,7 @@ export default function RegistrarCriança({ navigation }){
                     <Botao
                         cor={cores.vermelhoClaro}
                         valor={'< Voltar'}
-                        acao={ () => navigation.canGoBack() ? navigation.goBack() : 'a' }
+                        acao={ () => navigation.goBack()}
                     />
                 </View>
                 <Image source={require('../../../assets/images/icon.png')}

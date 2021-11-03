@@ -3,21 +3,21 @@ import { Image, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import BotaoGeral from "../../../components/BotaoGeral/indexBotaoGeral";
 import Botao from "../../../components/Botao/indexBotao";
-import { cores } from "../../../stylesCores";
-import styles from "./styleInicialAdulto";
+import { cores, estiloGeral } from "../../../stylesCores";
+import styles from "../../TelaInicial/styles";
 import styleTelaResponsiva from "../../../components/TelaResponsiva/styleTelaResponsiva";
 import styleInicialAdulto from "./styleInicialAdulto";
 
-export default function TelaInicialAdulto({ navigation }){
+export default function TelaInicialAdulto({ navigation, route }){
 
     return (
-        <View>
+        <View style={estiloGeral.fundo}>
             <View style={styles.conteudoCabeçalho}>
                 <View>
                     <Botao
                         cor={cores.vermelhoClaro}
-                        valor={'< Voltar'}
-                        acao={ () => navigation.canGoBack() ? navigation.goBack() : 'a' }
+                        valor={'< Sair'}
+                        acao={ () => route.params.setUser(null) }
                     />
                 </View>
                 
