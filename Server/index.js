@@ -103,3 +103,24 @@ app.post('/registrarAdulto', (req, res)=>{
 
 //#endregion
 
+//#region Tarefas
+app.post('/registrarTarefa', (req, res)=>{
+    const { titulo_Tarefa } = req.body;
+    const { descricao_Tarefa } = req.body;
+    const { data_Tarefa } = req.body;
+    const { dataFinal_Tarefa } = req.body;
+    //const { concluido } = req.body; false automatic
+    const { FK_CodCrianca } = req.body;
+    const { FK_CodResponsavel } = req.body;
+
+    let sql = "INSERT INTO responsavel ( nome_Res, email_Res, senha_Res, FK_CodCrianca) VALUES (?, ?, ?, ?)"
+
+
+    db.query(sql, [titulo_Tarefa, descricao_Tarefa, data_Tarefa, dataFinal_Tarefa, FK_CodCrianca, FK_CodResponsavel], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        res.send(result);
+    })
+    console.log(nome_Res);
+});
+
+//#endregion

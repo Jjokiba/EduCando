@@ -16,6 +16,7 @@ import TelaInicialAdulto from './src/telas/Adulto/TelaInicialAdulto/indexInicial
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { cores } from './src/stylesCores.js';
+import CriarTarefa from './src/telas/Adulto/CriarTarefa/index.js';
 
 export default function App() {
   
@@ -51,6 +52,7 @@ export default function App() {
           user.tipoConta ?( // adulto
             <>
               <Stack.Screen name ='Tela Inicial Adulto' component={TelaInicialAdulto} initialParams={{ setUser: setUser }}/>
+              <Stack.Screen name ='Criar Tarefa' component={CriarTarefa} initialParams={{ user: user, setUser: setUser }}/>
             </>
           ) : (
             <>
