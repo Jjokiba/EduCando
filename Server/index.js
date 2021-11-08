@@ -113,7 +113,7 @@ app.post('/registrarTarefa', (req, res)=>{
     const { FK_CodCrianca } = req.body;
     const { FK_CodResponsavel } = req.body;
 
-    let sql = "INSERT INTO responsavel ( nome_Res, email_Res, senha_Res, FK_CodCrianca) VALUES (?, ?, ?, ?)"
+    let sql = "INSERT INTO Tarefa ( titulo_Tarefa, descricao_Tarefa, data_tarefa, dataFinal_tarefa, FK_CodCrianca, FK_CodResponsavel) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y %h:%i'), STR_TO_DATE(?, '%d-%m-%Y %h:%i'), ?, ?)"
 
 
     db.query(sql, [titulo_Tarefa, descricao_Tarefa, data_Tarefa, dataFinal_Tarefa, FK_CodCrianca, FK_CodResponsavel], (err, result) =>{
@@ -121,6 +121,21 @@ app.post('/registrarTarefa', (req, res)=>{
         res.send(result);
     })
     console.log(nome_Res);
+});
+
+app.post('/getTarefasCrianca', (req, res)=>{
+    const { FK_CodCrianca } = req.body;
+
+    let sql = "SELECT * FROM Tarefa WHERE FK_CodCrianca = ?;"
+
+
+    db.query(sql, [], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        if(err) res.send(err)
+        else res.send(result)
+    })
+    //console.log(nome_Res);
+    
 });
 
 //#endregion

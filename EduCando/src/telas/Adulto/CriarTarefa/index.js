@@ -13,17 +13,53 @@ export default function CriarTarefa({ navigation, route }){
     const [values, SetValues] = useState(({
         titulo_Tarefa: null,
         descricao_Tarefa: null,
-        data_Tarefa: null,
+        data_tarefa: null,
         dataFinal_tarefa: null,
-        FK_CodCrianca: null,
-        FK_CodResponsavel: null
+        FK_CodCrianca: route.params.user.FK_CodCrianca,
+        FK_CodResponsavel: route.params.user.codResponsavel
     }));
 
+    function validaCampos(){
+        var msg = 'Alguns pontos estão faltando:' ;
+        var validacao = true;
+
+        if(values.titulo_Tarefa == null){
+            msg += "\nTitulo da tarefa não foi informado.\n";
+            validacao = false;
+        }
+
+        if(values.descricao_Tarefa == null){
+            msg += "\nDescrição da tarefa não foi informada.\n";
+            validacao = false;
+        }
+
+        
+
+        if(values.data_tarefa == null){
+            msg += "\nData da tarefa não foi informada.\n";
+            validacao = false;
+        }
+
+        if(values.dataFinal_tarefa == null){
+            msg += "\nData final da tarefa não foi informada.\n";
+            validacao = false;
+        }
+        if(validacao == false){
+            Alert.alert("Atenção", msg);
+        }
+        
+        return validacao;
+    }
+
+    
+
+    //#region HandleChanges
     const handleChangeValues = (value, name) => { 
         SetValues((prevValue) => ({
             ...prevValue,
             [name]: value,
         }));
+        //console.log('crianca: ' + values.FK_CodCrianca + "\nResponsavel: " + values.FK_CodResponsavel);
     };
 
     const [maskedData, setData] = useState("");
@@ -45,6 +81,43 @@ export default function CriarTarefa({ navigation, route }){
         }));
         setDataFinal(maskedValue);
     }
+    //#endregion
+    
+    const handleClickButton = async () => {
+        var teste = await validaCampos(); 
+        //console.log(teste);
+        if(teste){
+            Axios.post('http://192.168.1.195:3001/registrarTarefa', {
+                titulo_Tarefa: values.titulo_Tarefa,
+                descricao_Tarefa: values.descricao_Tarefa,
+                data_tarefa: values.data_tarefa,
+                dataFinal_tarefa: values.dataFinal_tarefa,
+                FK_CodCrianca: values.FK_CodCrianca,
+                FK_CodResponsavel: values.FK_CodResponsavel
+            }).then((response) =>{
+                if(response.data != ""){
+                    Alert.alert('Sucesso', 'Tarefa criada com sucesso!',[
+                        {
+                          text: "Voltar Para o inicio",
+                          onPress: () => navigation.goBack(),
+                          style: "confirm",
+                        },
+                      ]);
+                }
+                else
+                {
+                    Alert.alert('Erro', 'Falha ao tentar criar a tarefa.',[
+                        {
+                          text: "Tentar novamente",
+                          onPress: () => console.log(""),
+                          style: "confirm",
+                        },
+                      ]);
+                }
+            });
+        }
+        
+    };
 
     return (
         <View style={estiloGeral.fundo}>
@@ -82,7 +155,7 @@ export default function CriarTarefa({ navigation, route }){
                     <View style={styles.caixaTexto}>
                         <TextInput 
                                 placeholder='Descrição da tarefa da criança'
-                                onChangeText={e => handleChangeValues(e, 'titulo_Tarefa')}
+                                onChangeText={e => handleChangeValues(e, 'descricao_Tarefa')}
                                 multiline
                                 numberOfLines={3}
                                 style={{padding: 5, textAlignVertical: 'top'}}
@@ -95,8 +168,8 @@ export default function CriarTarefa({ navigation, route }){
                     </Text>
                     <View style={styles.caixaTexto}>
                         <TextInput 
-                                placeholder='Data Final da Tarefa'
-                                onChangeText={e => maskDateChangeValue(e, 'data_Tarefa')}
+                                placeholder='Data Inicial da Tarefa'
+                                onChangeText={e => maskDateChangeValue(e, 'data_tarefa')}
                                 value={maskedData}
                                 secureTextEntry={false}
                                 keyboardType="numeric"
@@ -111,7 +184,7 @@ export default function CriarTarefa({ navigation, route }){
                         
                         <TextInput 
                                 placeholder='Data Final da Tarefa'
-                                onChangeText={e => maskDateFinalChangeValue(e, 'dataFinal_Tarefa')}
+                                onChangeText={e => maskDateFinalChangeValue(e, 'dataFinal_tarefa')}
                                 value={maskedDataFinal}
                                 secureTextEntry={false}
                                 keyboardType="numeric"

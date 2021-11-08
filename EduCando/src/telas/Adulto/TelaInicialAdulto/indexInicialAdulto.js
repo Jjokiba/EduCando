@@ -9,7 +9,7 @@ import styleTelaResponsiva from "../../../components/TelaResponsiva/styleTelaRes
 import styleInicialAdulto from "./styleInicialAdulto";
 
 export default function TelaInicialAdulto({ navigation, route }){
-
+    
     return (
         <View style={estiloGeral.fundo}>
             <View style={styleInicialAdulto.conteudoCabeçalho}>
@@ -33,6 +33,8 @@ export default function TelaInicialAdulto({ navigation, route }){
                         cor={cores.roxoClaro}
                         valor={'Visão geral da criança'}
                         //width={'80%'}
+                        disabled={true}
+                        acao={() => console.log("paps")}
                         />
                 </View>
                 
@@ -47,6 +49,7 @@ export default function TelaInicialAdulto({ navigation, route }){
                         cor={cores.roxoClaro}
                         valor={'Criar ordem'}
                         //width={'40%'}
+                        disabled={true}
                         />
                 </View>
                 <View >
@@ -54,6 +57,7 @@ export default function TelaInicialAdulto({ navigation, route }){
                         cor={cores.roxoClaro}
                         valor={'Parabenizar'}
                         //width={'80%'}
+                        disabled={true}
                         />
                 </View>
 
@@ -62,11 +66,13 @@ export default function TelaInicialAdulto({ navigation, route }){
                         cor={cores.roxoClaro}
                         valor={'Ver tarefas criadas'}
                         width={'40%'}
+                        
                         />
                     <BotaoGeral 
                         cor={cores.roxoClaro}
                         valor={'Mandar mensagem'}
                         width={'40%'}
+                        disabled={true}
                         />
                 </View>
 

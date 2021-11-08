@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 
-export default (pequeno, cor, fonteClara, widthBotao) => StyleSheet.create({
-    
+export default (pequeno, cor, fonteClara, widthBotao, disabled) => StyleSheet.create({
+  
   botao: {
     width: widthBotao,
     paddingVertical: pequeno ? 3 : 9,
+    opacity: disabled ? 0.5 : 1,
     paddingHorizontal: 20,
     backgroundColor: cor,
     shadowColor: "#000",
@@ -19,6 +20,7 @@ export default (pequeno, cor, fonteClara, widthBotao) => StyleSheet.create({
     borderRadius: 3
   },
   valor: {
+    opacity: disabled ? 0.5 : 1,
     fontFamily: 'PoetsenOne',
     fontWeight: 'bold',
     textAlign: 'center',
