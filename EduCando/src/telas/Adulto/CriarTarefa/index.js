@@ -1,10 +1,11 @@
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Alert, Image, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import Botao from "../../../components/Botao/indexBotao";
 import { cores, estiloGeral } from "../../../stylesCores";
 import styles from "./style";
 import {mask } from 'remask';
+import Axios from  'axios';
 import { useState } from "react/cjs/react.development";
 
 

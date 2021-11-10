@@ -66,7 +66,7 @@ export default function TelaInicialAdulto({ navigation, route }){
                         cor={cores.roxoClaro}
                         valor={'Ver tarefas criadas'}
                         width={'40%'}
-                        
+                        acao={ () => navigation.navigate('Ver Tarefas', {navigation})}
                         />
                     <BotaoGeral 
                         cor={cores.roxoClaro}

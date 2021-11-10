@@ -17,6 +17,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { cores } from './src/stylesCores.js';
 import CriarTarefa from './src/telas/Adulto/CriarTarefa/index.js';
+import listaTarefas from './src/telas/Adulto/ListaTarefas/index.js';
 
 export default function App() {
   
@@ -53,6 +54,7 @@ export default function App() {
             <>
               <Stack.Screen name ='Tela Inicial Adulto' component={TelaInicialAdulto} initialParams={{ setUser: setUser }}/>
               <Stack.Screen name ='Criar Tarefa' component={CriarTarefa} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Ver Tarefas' component={listaTarefas} initialParams={{ user: user, setUser: setUser }}/>
             </>
           ) : (
             <>

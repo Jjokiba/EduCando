@@ -113,23 +113,23 @@ app.post('/registrarTarefa', (req, res)=>{
     const { FK_CodCrianca } = req.body;
     const { FK_CodResponsavel } = req.body;
 
-    let sql = "INSERT INTO Tarefa ( titulo_Tarefa, descricao_Tarefa, data_tarefa, dataFinal_tarefa, FK_CodCrianca, FK_CodResponsavel) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y %h:%i'), STR_TO_DATE(?, '%d-%m-%Y %h:%i'), ?, ?)"
+    let sql = "INSERT INTO Tarefas ( titulo_Tarefa, descricao_Tarefa, data_tarefa, dataFinal_tarefa, FK_CodCrianca, FK_CodResponsavel) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y %h:%i'), STR_TO_DATE(?, '%d-%m-%Y %h:%i'), ?, ?)"
 
 
     db.query(sql, [titulo_Tarefa, descricao_Tarefa, data_Tarefa, dataFinal_Tarefa, FK_CodCrianca, FK_CodResponsavel], (err, result) =>{
         console.log('Erro: ' + err + "\nResultado:" + result);
         res.send(result);
     })
-    console.log(nome_Res);
+    //console.log(nome_Res);
 });
 
 app.post('/getTarefasCrianca', (req, res)=>{
     const { FK_CodCrianca } = req.body;
 
-    let sql = "SELECT * FROM Tarefa WHERE FK_CodCrianca = ?;"
+    let sql = "SELECT * FROM Tarefas WHERE FK_CodCrianca = ?;"
 
 
-    db.query(sql, [], (err, result) =>{
+    db.query(sql, [FK_CodCrianca], (err, result) =>{
         console.log('Erro: ' + err + "\nResultado:" + result);
         if(err) res.send(err)
         else res.send(result)
