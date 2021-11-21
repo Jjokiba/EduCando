@@ -126,7 +126,7 @@ app.post('/registrarTarefa', (req, res)=>{
 app.post('/getTarefasCrianca', (req, res)=>{
     const { FK_CodCrianca } = req.body;
 
-    let sql = "SELECT * FROM Tarefas WHERE FK_CodCrianca = ?;"
+    let sql = "SELECT * FROM Tarefas WHERE FK_CodCrianca = ? AND concluido = 0;"
 
 
     db.query(sql, [FK_CodCrianca], (err, result) =>{

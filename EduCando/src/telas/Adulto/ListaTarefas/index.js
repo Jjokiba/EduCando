@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Alert, Image, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import Botao from "../../../components/Botao/indexBotao";
 import { cores, estiloGeral } from "../../../stylesCores";
 import styles from "./style";
 import Axios from  'axios';
+import AppLoading from "expo-app-loading";
 
-const Item = ({ titulo_Tarefa, desc_Tarefa }) => (
+const Item = ({ codTarefa ,titulo_Tarefa, desc_Tarefa, data_tarefa, dataFinal_Tarefa }) => (
     <View >
+      <Text style={styles.fundo}>{codTarefa}</Text>
       <Text style={styles.fundo}>{titulo_Tarefa}</Text>
       <Text style={styles.fundo}>{desc_Tarefa}</Text>
-      <Text style={styles.fundo}>{desc_Tarefa}</Text>
+      <Text style={styles.fundo}>{data_tarefa}</Text>
+      <Text style={styles.fundo}>{dataFinal_Tarefa}</Text>
     </View>
   );
 
@@ -19,19 +22,35 @@ const Item = ({ titulo_Tarefa, desc_Tarefa }) => (
 
 export default function listaTarefas({ navigation, route }){
     
-    //const listaTarefasConcluidas = async () => { return await Axios.post("http://192.168.1.195:3001/getTarefas",{ FK_CodCrianca : route.params.user.FK_CodCrianca})};
-    const listaTarefasConcluidas = Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.FK_CodCrianca});
 
-    function handleClickButton() {
-        console.log(JSON.stringify(listaTarefasConcluidas._W.data));//????????????
+    const [IsReady, SetIsReady] = useState(false);
+
+    const [listaTarefasConcluidas, setListaTarefas] = useState(null);
+
+    async function handleClickButton() {
+        setListaTarefas(await Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.FK_CodCrianca}));
+        //console.log(JSON.stringify(listaTarefasConcluidas._W.data));//????????????
         console.log(JSON.stringify(listaTarefasConcluidas.data));//????????????
         console.log('pepino crianca: ' + route.params.user.FK_CodCrianca );
     }
 
-    const renderItem = ({ item }) => (
-        <Item title={item.title} />
-    );
+    function renderItem ({ item }) {
+        <Item titulo_Tarefa={item.titulo_Tarefa} desc_Tarefa={item.desc_Tarefa} />
+    };
 
+
+    const getTarefas = async () => {
+        setListaTarefas(await Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.FK_CodCrianca}))
+        console.log(JSON.stringify(listaTarefasConcluidas.data));
+        //this.setState({ IsReady: true }); 
+    };
+  if (!IsReady) {
+    return <AppLoading startAsync={handleClickButton()} 
+             onFinish={() => {SetIsReady(true);}}
+              onError={() => {}}/>;
+  }
+  else{
+      //console.log(JSON.stringify(listaTarefasConcluidas));
     return (
         <View style={estiloGeral.fundo}>
             <View style={styles.conteudoCabeçalho}>
@@ -39,10 +58,9 @@ export default function listaTarefas({ navigation, route }){
                     <Botao
                         cor={cores.vermelhoClaro}
                         valor={'< Voltar'}
-                        acao={ () => navigation.goBack()}
+                        acao={() => navigation.goBack()}
                     />
-                </View>
-                
+                </View>    
             </View>            
             <View>
                 <Image source={require('../../../assets/images/corujao.png')}
@@ -52,11 +70,27 @@ export default function listaTarefas({ navigation, route }){
             <View style={styles.conteudoCard} >
                 <View>
                     <Text>Lista de Tarefas</Text>
-                    <FlatList
-                        data={listaTarefasConcluidas.data}
-                        renderItem={renderItem}
-                        keyExtractor={item => listaTarefasConcluidas.data.codTarefa}
-                    />
+                    {
+                        !listaTarefasConcluidas ? 
+                        console.log(JSON.stringify(listaTarefasConcluidas) + " linha 73")
+                        :
+                        <FlatList
+                            data={listaTarefasConcluidas.data}
+                            //renderItem={({item}) => renderItem}   
+                            keyextractor={(x, i) => i}
+                            renderItem={({ item }) => 
+                            <Item 
+                            codTarefa={item.codTarefa}
+                            titulo_Tarefa={item.titulo_Tarefa} 
+                            desc_Tarefa={item.descricao_Tarefa}
+                            data_tarefa={item.data_tarefa}
+                            data_FinalTarefa={item.data_FinalTarefa}
+                            />
+                            }
+                            
+                        />
+                    }
+                    
                 </View>
             </View>
 
@@ -69,4 +103,6 @@ export default function listaTarefas({ navigation, route }){
             </View>
         </View>
     );
+  }
+    
 }
