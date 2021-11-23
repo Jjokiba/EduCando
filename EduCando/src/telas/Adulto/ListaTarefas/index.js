@@ -6,19 +6,7 @@ import { cores, estiloGeral } from "../../../stylesCores";
 import styles from "./style";
 import Axios from  'axios';
 import AppLoading from "expo-app-loading";
-
-const Item = ({ codTarefa ,titulo_Tarefa, desc_Tarefa, data_tarefa, dataFinal_Tarefa }) => (
-    <View >
-      <Text style={styles.fundo}>{codTarefa}</Text>
-      <Text style={styles.fundo}>{titulo_Tarefa}</Text>
-      <Text style={styles.fundo}>{desc_Tarefa}</Text>
-      <Text style={styles.fundo}>{data_tarefa}</Text>
-      <Text style={styles.fundo}>{dataFinal_Tarefa}</Text>
-    </View>
-  );
-
-  
-
+import ItemTarefa from "../../../components/listItem";
 
 export default function listaTarefas({ navigation, route }){
     
@@ -30,27 +18,17 @@ export default function listaTarefas({ navigation, route }){
     async function handleClickButton() {
         setListaTarefas(await Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.FK_CodCrianca}));
         //console.log(JSON.stringify(listaTarefasConcluidas._W.data));//????????????
-        console.log(JSON.stringify(listaTarefasConcluidas.data));//????????????
-        console.log('pepino crianca: ' + route.params.user.FK_CodCrianca );
+        //console.log(JSON.stringify(listaTarefasConcluidas.data));//????????????
+        //console.log('pepino crianca: ' + route.params.user.FK_CodCrianca );
     }
 
-    function renderItem ({ item }) {
-        <Item titulo_Tarefa={item.titulo_Tarefa} desc_Tarefa={item.desc_Tarefa} />
-    };
-
-
-    const getTarefas = async () => {
-        setListaTarefas(await Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.FK_CodCrianca}))
-        console.log(JSON.stringify(listaTarefasConcluidas.data));
-        //this.setState({ IsReady: true }); 
-    };
   if (!IsReady) {
     return <AppLoading startAsync={handleClickButton()} 
              onFinish={() => {SetIsReady(true);}}
               onError={() => {}}/>;
   }
   else{
-      //console.log(JSON.stringify(listaTarefasConcluidas));
+      console.log(JSON.stringify(listaTarefasConcluidas));
     return (
         <View style={estiloGeral.fundo}>
             <View style={styles.conteudoCabeçalho}>
@@ -72,14 +50,15 @@ export default function listaTarefas({ navigation, route }){
                     <Text>Lista de Tarefas</Text>
                     {
                         !listaTarefasConcluidas ? 
-                        console.log(JSON.stringify(listaTarefasConcluidas) + " linha 73")
+                            console.log(JSON.stringify(listaTarefasConcluidas) + " linha 73")
                         :
                         <FlatList
+                            style={{width: 300}}
                             data={listaTarefasConcluidas.data}
                             //renderItem={({item}) => renderItem}   
                             keyextractor={(x, i) => i}
                             renderItem={({ item }) => 
-                            <Item 
+                            <ItemTarefa 
                             codTarefa={item.codTarefa}
                             titulo_Tarefa={item.titulo_Tarefa} 
                             desc_Tarefa={item.descricao_Tarefa}
