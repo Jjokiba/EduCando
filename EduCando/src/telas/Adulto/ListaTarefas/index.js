@@ -14,12 +14,17 @@ export default function listaTarefas({ navigation, route }){
     const [IsReady, SetIsReady] = useState(false);
 
     const [listaTarefasConcluidas, setListaTarefas] = useState(null);
+    //this.state ={ refresh : false }
 
     async function handleClickButton() {
         setListaTarefas(await Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.FK_CodCrianca}));
         //console.log(JSON.stringify(listaTarefasConcluidas._W.data));//????????????
         //console.log(JSON.stringify(listaTarefasConcluidas.data));//????????????
         //console.log('pepino crianca: ' + route.params.user.FK_CodCrianca );
+    }
+
+    async function handleRefresh() {
+        setListaTarefas(await Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.FK_CodCrianca}));
     }
 
   if (!IsReady) {
@@ -57,6 +62,7 @@ export default function listaTarefas({ navigation, route }){
                             data={listaTarefasConcluidas.data}
                             //renderItem={({item}) => renderItem}   
                             keyextractor={(x, i) => i}
+                            //refresh={refresh}
                             renderItem={({ item }) => 
                             <ItemTarefa 
                             codTarefa={item.codTarefa}
@@ -64,6 +70,7 @@ export default function listaTarefas({ navigation, route }){
                             desc_Tarefa={item.descricao_Tarefa}
                             data_tarefa={item.data_tarefa}
                             data_FinalTarefa={item.data_FinalTarefa}
+                            funcaoReload={() => SetIsReady(false)}
                             />
                             }
                             
@@ -74,11 +81,11 @@ export default function listaTarefas({ navigation, route }){
             </View>
 
             <View style={{alignSelf:'center'}}>
-                <Botao
+                {/*<Botao
                         cor={cores.verde}
                         valor={'Dar dinheiro ao neymar'}
                         acao={() => handleClickButton()}
-                    />        
+                    />        */}
             </View>
         </View>
     );

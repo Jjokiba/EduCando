@@ -5,8 +5,15 @@ import stylees from '../../telas/TelaInicial/styles'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Axios from 'axios';
 
-function ItemTarefa({codTarefa ,titulo_Tarefa, desc_Tarefa, data_tarefa, dataFinal_Tarefa }) {
+
+async function completaTarefa(codTarefa, concluido, funcaoReload, ready){
+  await Axios.post("http://192.168.1.195:3001/concluirTarefa",{ codTarefa : codTarefa, concluido : concluido});
+  funcaoReload();
+}
+
+function ItemTarefa({codTarefa ,titulo_Tarefa, desc_Tarefa, data_tarefa, dataFinal_Tarefa, funcaoReload }) {
     return (
             <View style={styleTarefa.card}>
               <Text style={{display:'none'}}>{codTarefa}</Text>
@@ -19,11 +26,11 @@ function ItemTarefa({codTarefa ,titulo_Tarefa, desc_Tarefa, data_tarefa, dataFin
               <Text>Data Final para Tarefa: </Text>
                 <Text>{dataFinal_Tarefa == null ? 'Não Informado' : data}</Text>
                 <View style={styleTarefa.inlineflex}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => completaTarefa(codTarefa, 1, funcaoReload, ready)}>
                         <FontAwesomeIcon icon={ faCheckCircle } size={ 32 } style={styleTarefa.iconzinho}/>
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <FontAwesomeIcon icon={ faTimesCircle } size={ 32 } style={styleTarefa.iconzinho}/>
+                    <TouchableOpacity onPress={() =>completaTarefa(codTarefa, -1, funcaoReload)}>
+                        <FontAwesomeIcon icon={ faTimesCircle } size={ 32 } style={styleTarefa.iconzinho} />
                     </TouchableOpacity>
                 </View>
                 

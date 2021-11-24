@@ -138,4 +138,17 @@ app.post('/getTarefasCrianca', (req, res)=>{
     
 });
 
+app.post('/concluirTarefa', (req,res)=>{
+    const { codTarefa } = req.body;
+    const { concluido } = req.body;
+
+    let sql = "UPDATE Tarefas SET concluido = ? WHERE codTarefa = ?"
+
+
+    db.query(sql, [concluido , codTarefa], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        res.send(result);
+    })
+    //console.log(nome_Res);
+});
 //#endregion
