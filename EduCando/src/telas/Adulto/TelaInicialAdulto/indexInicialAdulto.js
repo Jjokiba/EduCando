@@ -48,25 +48,40 @@ export default function TelaInicialAdulto({ navigation, route }){
                     <BotaoGeral 
                         cor={cores.roxoClaro}
                         valor={'Criar ordem'}
+                        acao={ () => navigation.navigate('Criar Ordem', {navigation})}
                         //width={'40%'}
-                        disabled={true}
+                        //disabled={true}
+                        />
+                </View>
+                <View style={styleInicialAdulto.botoesInline}>
+                    <BotaoGeral 
+                        cor={cores.roxoClaro}
+                        valor={'Listar Tarefas'}
+                        acao={ () => navigation.navigate('Ver Tarefas', {navigation})}
+                        />
+                    <BotaoGeral 
+                        cor={cores.roxoClaro}
+                        valor={'Listar Ordens'}
+                        //width={'40%'}
+                        acao={ () => navigation.navigate('Historico de Ordem', {navigation})}
                         />
                 </View>
                 <View >
                     <BotaoGeral 
                         cor={cores.roxoClaro}
                         valor={'Parabenizar'}
+                        acao={ () => navigation.navigate('Parabenizar', {navigation})}
                         //width={'80%'}
-                        disabled={true}
+                        //disabled={true}
                         />
                 </View>
 
                 <View style={styleInicialAdulto.botoesInline}>
                     <BotaoGeral 
                         cor={cores.roxoClaro}
-                        valor={'Ver tarefas criadas'}
+                        valor={'Historico de Parabenizações'}
                         width={'40%'}
-                        acao={ () => navigation.navigate('Ver Tarefas', {navigation})}
+                        acao={ () => navigation.navigate('Historico de parabenização', {navigation})}
                         />
                     <BotaoGeral 
                         cor={cores.roxoClaro}

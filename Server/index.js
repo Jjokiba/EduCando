@@ -3,6 +3,7 @@ const mysql = require("mysql");
 const cors = require("cors");
 const app = express();
 
+//#region conexão
 const db = mysql.createPool({
     host: "localhost",
     user: "root",
@@ -16,6 +17,7 @@ app.use(express.json());
 app.listen(3001, ()=> {
     console.log("Server Up")
 });
+//#endregion
 
 //#region  Crianças
 
@@ -66,7 +68,7 @@ app.get('/getLastInsertId', (req, res)=>{
 
 //#endregion
 
-//#region  Responsaveis
+//#region Responsaveis
 app.post('/loginAdulto', (req, res)=>{
     const { email_Res } = req.body;
     const { senha_Res } = req.body;
@@ -107,13 +109,13 @@ app.post('/registrarAdulto', (req, res)=>{
 app.post('/registrarTarefa', (req, res)=>{
     const { titulo_Tarefa } = req.body;
     const { descricao_Tarefa } = req.body;
-    const { data_Tarefa } = req.body;
+   // const { data_Tarefa } = req.body; default time atual 
     const { dataFinal_Tarefa } = req.body;
     //const { concluido } = req.body; false automatic
     const { FK_CodCrianca } = req.body;
     const { FK_CodResponsavel } = req.body;
 
-    let sql = "INSERT INTO Tarefas ( titulo_Tarefa, descricao_Tarefa, data_tarefa, dataFinal_tarefa, FK_CodCrianca, FK_CodResponsavel) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y %h:%i'), STR_TO_DATE(?, '%d-%m-%Y %h:%i'), ?, ?)"
+    let sql = "INSERT INTO Tarefas ( titulo_Tarefa, descricao_Tarefa, dataFinal_tarefa, FK_CodCrianca, FK_CodResponsavel) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y %h:%i'), ?, ?)"
 
 
     db.query(sql, [titulo_Tarefa, descricao_Tarefa, data_Tarefa, dataFinal_Tarefa, FK_CodCrianca, FK_CodResponsavel], (err, result) =>{
@@ -151,4 +153,106 @@ app.post('/concluirTarefa', (req,res)=>{
     })
     //console.log(nome_Res);
 });
+//#endregion
+
+//#region Parabens
+
+app.post('/registrarParabens', (req, res)=>{
+    const { titulo_Parabens } = req.body;
+    const { descricao_Parabens } = req.body;
+    //const { data_Parabens } = req.body;
+    //const { visto } = req.body; false automatic
+    const { FK_CodCrianca } = req.body;
+    const { FK_CodResponsavel } = req.body;
+
+    let sql = "INSERT INTO Parabens ( titulo_Parabens, descricao_Parabens, FK_CodCrianca, FK_CodResponsavel) VALUES (?, ?, ?, ?)"
+
+
+    db.query(sql, [titulo_Parabens, descricao_Parabens, FK_CodCrianca, FK_CodResponsavel], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        res.send(result);
+    });
+    //console.log(nome_Res);
+});
+
+app.post('/getParabens', (req, res)=>{
+    const { FK_CodCrianca } = req.body;
+
+    let sql = "SELECT * FROM Parabens WHERE FK_CodCrianca = ?"
+
+
+    db.query(sql, [FK_CodCrianca], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        if(err) res.send(err)
+        else res.send(result)
+    })
+    //console.log(nome_Res);
+    
+});
+
+app.post('/vizualizarParabens', (req,res)=>{
+    const { codParabens } = req.body;
+    const { visto } = req.body;
+
+    let sql = "UPDATE Parabens SET visto = ? WHERE codParabens = ?"
+
+
+    db.query(sql, [visto , codParabens], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        res.send(result);
+    })
+    //console.log(nome_Res);
+});
+
+//#endregion
+
+//#region Ordem
+
+app.post('/registrarOrdem', (req, res)=>{
+    const { titulo_Ordem } = req.body;
+    const { descricao_Ordem } = req.body;
+    //const { data_Parabens } = req.body;
+    //const { visto } = req.body; false automatic
+    const { FK_CodCrianca } = req.body;
+    const { FK_CodResponsavel } = req.body;
+
+    let sql = "INSERT INTO Ordem ( titulo_Ordem, descricao_Ordem, FK_CodCrianca, FK_CodResponsavel) VALUES (?, ?, ?, ?)"
+
+
+    db.query(sql, [titulo_Ordem, descricao_Ordem, FK_CodCrianca, FK_CodResponsavel], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        res.send(result);
+    });
+    //console.log(nome_Res);
+});
+
+app.post('/getOrdem', (req, res)=>{//aaaaaa
+    const { FK_CodCrianca } = req.body;
+
+    let sql = "SELECT * FROM ordem WHERE FK_CodCrianca = ?"
+
+
+    db.query(sql, [FK_CodCrianca], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        if(err) res.send(err)
+        else res.send(result)
+    })
+    //console.log(nome_Res);
+    
+});
+
+app.post('/vizualizarOrdem', (req,res)=>{//aaaaaaaaa
+    const { codParabens } = req.body;
+    const { vizualizado } = req.body;
+
+    let sql = "UPDATE Ordem SET visto = ? WHERE codOrdem = ?"
+
+
+    db.query(sql, [vizualizado , codParabens], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        res.send(result);
+    })
+    //console.log(nome_Res);
+});
+
 //#endregion

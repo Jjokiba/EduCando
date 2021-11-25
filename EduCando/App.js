@@ -18,6 +18,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { cores } from './src/stylesCores.js';
 import CriarTarefa from './src/telas/Adulto/CriarTarefa/index.js';
 import listaTarefas from './src/telas/Adulto/ListaTarefas/index.js';
+import CriarOrdem from './src/telas/Adulto/CriarOrdem/index.js';
+import CriarParabenizacao from './src/telas/Adulto/CriarParabenizacao/index.js';
+import listaParabens from './src/telas/Adulto/ListaParabens/index.js';
+import listaOrdem from './src/telas/Adulto/ListaOrdem/index.js';
 
 export default function App() {
   
@@ -55,6 +59,10 @@ export default function App() {
               <Stack.Screen name ='Tela Inicial Adulto' component={TelaInicialAdulto} initialParams={{ setUser: setUser }}/>
               <Stack.Screen name ='Criar Tarefa' component={CriarTarefa} initialParams={{ user: user, setUser: setUser }}/>
               <Stack.Screen name ='Ver Tarefas' component={listaTarefas} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Criar Ordem' component={CriarOrdem} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Parabenizar' component={CriarParabenizacao} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Historico de parabenização' component={listaParabens} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Historico de Ordem' component={listaOrdem} initialParams={{ user: user, setUser: setUser }}/>
             </>
           ) : (
             <>

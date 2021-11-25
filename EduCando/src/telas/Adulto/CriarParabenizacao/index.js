@@ -9,13 +9,12 @@ import Axios from  'axios';
 import { useState } from "react/cjs/react.development";
 
 
-export default function CriarTarefa({ navigation, route }){
+export default function CriarParabenizacao({ navigation, route }){
     //route.params.user
     const [values, SetValues] = useState(({
-        titulo_Tarefa: null,
-        descricao_Tarefa: null,
-        data_tarefa: null,
-        dataFinal_tarefa: null,
+        titulo_Parabens: null,
+        descricao_Parabens: null,
+        //data_tarefa: null,
         FK_CodCrianca: route.params.user.FK_CodCrianca,
         FK_CodResponsavel: route.params.user.codResponsavel
     }));
@@ -24,27 +23,17 @@ export default function CriarTarefa({ navigation, route }){
         var msg = 'Alguns pontos estão faltando:' ;
         var validacao = true;
 
-        if(values.titulo_Tarefa == null){
-            msg += "\nTitulo da tarefa não foi informado.\n";
+        if(values.titulo_Parabens == null){
+            msg += "\nTitulo da Parabenização não foi informado.\n";
             validacao = false;
         }
 
-        if(values.descricao_Tarefa == null){
-            msg += "\nDescrição da tarefa não foi informada.\n";
+        if(values.descricao_Parabens == null){
+            msg += "\nDescrição da Parabenização não foi informado.\n";
             validacao = false;
         }
 
         
-
-        if(values.data_tarefa == null){
-            msg += "\nData da tarefa não foi informada.\n";
-            validacao = false;
-        }
-
-        if(values.dataFinal_tarefa == null){
-            msg += "\nData final da tarefa não foi informada.\n";
-            validacao = false;
-        }
         if(validacao == false){
             Alert.alert("Atenção", msg);
         }
@@ -63,40 +52,21 @@ export default function CriarTarefa({ navigation, route }){
         //console.log('crianca: ' + values.FK_CodCrianca + "\nResponsavel: " + values.FK_CodResponsavel);
     };
 
-    const [maskedData, setData] = useState("");
-    const maskDateChangeValue = (value, name) =>{
-        const maskedValue = mask(value, ['99-99-9999 99:99']);
-        SetValues((prevValue) => ({
-            ...prevValue,
-            [name]: maskedValue,
-        }));
-        setData(maskedValue);
-    }
-
-    const [maskedDataFinal, setDataFinal] = useState(""); //That´s kinda dumb and I know, But Im in a hurry
-    const maskDateFinalChangeValue = (value, name) =>{
-        const maskedValue = mask(value, ['99-99-9999 99:99']);
-        SetValues((prevValue) => ({
-            ...prevValue,
-            [name]: maskedValue,
-        }));
-        setDataFinal(maskedValue);
-    }
-    //#endregion
+    
     
     const handleClickButton = async () => {
         var teste = await validaCampos(); 
         //console.log(teste);
         if(teste){
-            Axios.post('http://192.168.1.195:3001/registrarTarefa', {
-                titulo_Tarefa: values.titulo_Tarefa,
-                descricao_Tarefa: values.descricao_Tarefa,
-                dataFinal_tarefa: values.dataFinal_tarefa,
+            Axios.post('http://192.168.1.195:3001/registrarParabens', {
+                titulo_Parabens: values.titulo_Parabens,
+                descricao_Parabens: values.descricao_Parabens,
+//                data_tarefa: values.data_Parabens,
                 FK_CodCrianca: values.FK_CodCrianca,
                 FK_CodResponsavel: values.FK_CodResponsavel
             }).then((response) =>{
                 if(response.data != ""){
-                    Alert.alert('Sucesso', 'Tarefa criada com sucesso!',[
+                    Alert.alert('Sucesso', 'Parabens Enviado com sucesso!',[
                         {
                           text: "Voltar Para o inicio",
                           onPress: () => navigation.goBack(),
@@ -106,7 +76,7 @@ export default function CriarTarefa({ navigation, route }){
                 }
                 else
                 {
-                    Alert.alert('Erro', 'Falha ao tentar criar a tarefa.',[
+                    Alert.alert('Erro', 'Falha ao tentar criar a parabenização.',[
                         {
                           text: "Tentar novamente",
                           onPress: () => console.log(""),
@@ -139,55 +109,26 @@ export default function CriarTarefa({ navigation, route }){
             <View style={styles.conteudoCard} >
                 <View>
                     <Text >
-                        Titulo da tarefa: 
+                        Titulo da Parabenizacao: 
                     </Text>
                     <View style={styles.caixaTexto}>
                         <TextInput 
-                                placeholder='Titulo da tarefa da criança'
-                                onChangeText={e => handleChangeValues(e, 'titulo_Tarefa')}
+                                placeholder='Titulo da parabenização'
+                                onChangeText={e => handleChangeValues(e, 'titulo_Parabens')}
                             ></TextInput>
                     </View>
                 </View>
                 <View>
                     <Text >
-                        Descriçao da tarefa: 
+                        Mensagem da parabenização: 
                     </Text>
                     <View style={styles.caixaTexto}>
                         <TextInput 
-                                placeholder='Descrição da tarefa da criança'
-                                onChangeText={e => handleChangeValues(e, 'descricao_Tarefa')}
+                                placeholder='Mensagem de parabens'
+                                onChangeText={e => handleChangeValues(e, 'descricao_Parabens')}
                                 multiline
-                                numberOfLines={3}
+                                numberOfLines={5}
                                 style={{padding: 5, textAlignVertical: 'top'}}
-                            ></TextInput>
-                    </View>
-                </View>
-                {/*<View>
-                    <Text >
-                        Data Inicial da tarefa: 
-                    </Text>
-                    <View style={styles.caixaTexto}>
-                        <TextInput 
-                                placeholder='Data Inicial da Tarefa'
-                                onChangeText={e => maskDateChangeValue(e, 'data_tarefa')}
-                                value={maskedData}
-                                secureTextEntry={false}
-                                keyboardType="numeric"
-                            ></TextInput>
-                    </View>
-                </View>*/}
-                <View>
-                    <Text>
-                        Data Final: 
-                    </Text>
-                    <View style={styles.caixaTexto}>
-                        
-                        <TextInput 
-                                placeholder='Data Final da Tarefa'
-                                onChangeText={e => maskDateFinalChangeValue(e, 'dataFinal_tarefa')}
-                                value={maskedDataFinal}
-                                secureTextEntry={false}
-                                keyboardType="numeric"
                             ></TextInput>
                     </View>
                 </View>
@@ -196,7 +137,7 @@ export default function CriarTarefa({ navigation, route }){
             <View style={{alignSelf:'center'}}>
                 <Botao
                     cor={cores.verde}
-                    valor={'Criar Tarefa'}
+                    valor={'Enviar Parabenização!'}
                     acao={() => handleClickButton()}
                 />        
             </View>
