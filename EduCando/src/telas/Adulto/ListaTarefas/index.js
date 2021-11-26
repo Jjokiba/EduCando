@@ -33,7 +33,7 @@ export default function listaTarefas({ navigation, route }){
               onError={() => {}}/>;
   }
   else{
-      console.log(JSON.stringify(listaTarefasConcluidas));
+      //console.log(JSON.stringify(listaTarefasConcluidas));
     return (
         <View style={estiloGeral.fundo}>
             <View style={styles.conteudoCabeçalho}>
@@ -55,7 +55,7 @@ export default function listaTarefas({ navigation, route }){
                     <Text>Lista de Tarefas</Text>
                     {
                         !listaTarefasConcluidas ? 
-                            console.log(JSON.stringify(listaTarefasConcluidas) + " linha 73")
+                            console.log("Loading List...")
                         :
                         <FlatList
                             style={{width: 300}}

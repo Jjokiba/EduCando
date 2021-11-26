@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Alert } from 'react-native'
 import { cores } from '../../stylesCores';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCheckCircle, faClock } from '@fortawesome/free-solid-svg-icons'
@@ -13,20 +13,23 @@ async function vizualizarParabens(codParabens, funcaoReload){
   funcaoReload();
 }
 
+function info(){
+  //Alert.alert("Informativo", <FontAwesomeIcon icon={ faClock }/> + " Informa que a mensagem foi enviada\n" + <FontAwesomeIcon icon={ faCheckCircle }/> + "Informa que a mensagem foi vizualizada" )
+}
+
 function ItemParabens({cod ,titulo, desc, data_parabens, vizualizado, crianca, funcaoReload }) {
     return (
             <View style={styleTarefa.card}>
               {crianca ? vizualizarParabens(codParabens, funcaoReload) : null}
               <Text style={{display:'none'}}>{cod}</Text>
-              <Text>Parabens! </Text>
-                <Text> {titulo}</Text>
-              <Text>Mensagem: </Text>
+              <Text >{titulo}</Text>
+               <Text >Mensagem: </Text>
                 <Text> {desc}</Text>
                 <View style={styleTarefa.inlineflex}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> info()}>
                         {vizualizado ? 
-                        <View style={styleTarefa.inlineflex}><FontAwesomeIcon icon={ faCheckCircle } size={ 20 } style={styleTarefa.iconzinho}/><Text>{Moment(data_parabens).format('DD/MM/YYYY hh:mm')}</Text></View> : 
-                        <View style={styleTarefa.inlineflex}><FontAwesomeIcon icon={ faClock } size={ 20 } style={styleTarefa.iconzinho}/><Text>{Moment(data_parabens).format('DD/MM/YYYY hh:mm')}</Text></View> }
+                        <View style={styleTarefa.inlineflex}><FontAwesomeIcon icon={ faCheckCircle } size={ 20 } style={styleTarefa.iconzinho}/><Text>{Moment(data_parabens).format('DD/MM/YYYY HH:mm')}</Text></View> : 
+                        <View style={styleTarefa.inlineflex}><FontAwesomeIcon icon={ faClock } size={ 20 } style={styleTarefa.iconzinho}/><Text>{Moment(data_parabens).format('DD/MM/YYYY HH:mm')}</Text></View> }
                     </TouchableOpacity>
                 </View>
             </View>

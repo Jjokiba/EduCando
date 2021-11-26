@@ -33,8 +33,8 @@ export default function TelaInicialAdulto({ navigation, route }){
                         cor={cores.roxoClaro}
                         valor={'Visão geral da criança'}
                         //width={'80%'}
-                        disabled={true}
-                        acao={() => console.log("paps")}
+                        //disabled={true}
+                        acao={() => navigation.navigate('Visao geral', {navigation})}
                         />
                 </View>
                 

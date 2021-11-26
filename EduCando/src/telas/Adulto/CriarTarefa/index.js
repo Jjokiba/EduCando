@@ -14,7 +14,7 @@ export default function CriarTarefa({ navigation, route }){
     const [values, SetValues] = useState(({
         titulo_Tarefa: null,
         descricao_Tarefa: null,
-        data_tarefa: null,
+        //data_tarefa: null,
         dataFinal_tarefa: null,
         FK_CodCrianca: route.params.user.FK_CodCrianca,
         FK_CodResponsavel: route.params.user.codResponsavel
@@ -35,11 +35,11 @@ export default function CriarTarefa({ navigation, route }){
         }
 
         
-
+        /*
         if(values.data_tarefa == null){
             msg += "\nData da tarefa não foi informada.\n";
             validacao = false;
-        }
+        }*/
 
         if(values.dataFinal_tarefa == null){
             msg += "\nData final da tarefa não foi informada.\n";

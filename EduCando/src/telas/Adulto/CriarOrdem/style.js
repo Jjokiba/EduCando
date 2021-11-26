@@ -11,7 +11,7 @@ export default StyleSheet.create({
     conteudoCard:{
         backgroundColor: cores.roxoClaro,
         flexDirection:'column',
-        height: '55%',
+        height: '42%',
         alignItems:'center',
         justifyContent: 'space-around',
         margin: 10,

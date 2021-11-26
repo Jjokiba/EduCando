@@ -27,7 +27,7 @@ CREATE TABLE `educando`.`responsavel` (
   `FK_CodCrianca` INT NOT NULL,
   `FK_CodResponsavel` INT NOT NULL,
   PRIMARY KEY (`codTarefa`),
-  FOREIGN KEY (`FK_CodCrianca`) REFERENCES `crianca`(`CodCrianca`),
+  FOREIGN KEY (`FK_CodResponsavel`) REFERENCES `responsavel`(`CodResponsavel`),
   FOREIGN KEY (`FK_CodCrianca`) REFERENCES `crianca`(`CodCrianca`));
 
   CREATE TABLE `educando`.`Parabens` (
@@ -39,7 +39,7 @@ CREATE TABLE `educando`.`responsavel` (
   `FK_CodCrianca` INT NOT NULL,
   `FK_CodResponsavel` INT NOT NULL,
   PRIMARY KEY (`codParabens`),
-  FOREIGN KEY (`FK_CodCrianca`) REFERENCES `crianca`(`CodCrianca`),
+  FOREIGN KEY (`FK_CodResponsavel`) REFERENCES `responsavel`(`CodResponsavel`),
   FOREIGN KEY (`FK_CodCrianca`) REFERENCES `crianca`(`CodCrianca`));
 
   CREATE TABLE `educando`.`Ordem` (
@@ -51,5 +51,17 @@ CREATE TABLE `educando`.`responsavel` (
   `FK_CodCrianca` INT NOT NULL,
   `FK_CodResponsavel` INT NOT NULL,
   PRIMARY KEY (`codOrdem`),
-  FOREIGN KEY (`FK_CodCrianca`) REFERENCES `crianca`(`CodCrianca`),
+  FOREIGN KEY (`FK_CodResponsavel`) REFERENCES `Responsavel`(`CodResponsavel`),
+  FOREIGN KEY (`FK_CodCrianca`) REFERENCES `crianca`(`CodCrianca`));
+
+  CREATE TABLE `educando`.`visaoGeral` (
+  `codVisaoGeral` INT NOT NULL AUTO_INCREMENT,
+  `pedido` VARCHAR(100) NULL,
+  `diversao` VARCHAR(100) NULL,
+  `entusiasmo` INT,
+  `data_atualizacao` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `FK_CodCrianca` INT NOT NULL,
+  `FK_CodResponsavel` INT NOT NULL,
+  PRIMARY KEY (`codVisaoGeral`),
+  FOREIGN KEY (`FK_CodResponsavel`) REFERENCES `Responsavel`(`CodResponsavel`),
   FOREIGN KEY (`FK_CodCrianca`) REFERENCES `crianca`(`CodCrianca`));

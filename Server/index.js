@@ -118,7 +118,7 @@ app.post('/registrarTarefa', (req, res)=>{
     let sql = "INSERT INTO Tarefas ( titulo_Tarefa, descricao_Tarefa, dataFinal_tarefa, FK_CodCrianca, FK_CodResponsavel) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y %h:%i'), ?, ?)"
 
 
-    db.query(sql, [titulo_Tarefa, descricao_Tarefa, data_Tarefa, dataFinal_Tarefa, FK_CodCrianca, FK_CodResponsavel], (err, result) =>{
+    db.query(sql, [titulo_Tarefa, descricao_Tarefa, dataFinal_Tarefa, FK_CodCrianca, FK_CodResponsavel], (err, result) =>{
         console.log('Erro: ' + err + "\nResultado:" + result);
         res.send(result);
     })
