@@ -23,6 +23,8 @@ import CriarParabenizacao from './src/telas/Adulto/CriarParabenizacao/index.js';
 import listaParabens from './src/telas/Adulto/ListaParabens/index.js';
 import listaOrdem from './src/telas/Adulto/ListaOrdem/index.js';
 import VisaoGeral from './src/telas/Adulto/VisaoGeral/index.js';
+import TelaInicialCrianca from './src/telas/Crianca/TelaInicialCrianca/index.js';
+import listaOrdemCrianca from './src/telas/Crianca/ListarOrdens/index.js';
 
 export default function App() {
   
@@ -68,7 +70,8 @@ export default function App() {
             </>
           ) : (
             <>
-              <Stack.Screen name ='Tela Inicial Crianca' component={'To Do'} initialParams={{ setUser: setUser }}/>
+              <Stack.Screen name ='Tela Inicial Crianca' component={TelaInicialCrianca} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Historico de Ordem' component={listaOrdemCrianca} initialParams={{ user: user, setUser: setUser }}/>
             </>
           )
           

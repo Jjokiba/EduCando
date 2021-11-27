@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
+const { json } = require("express");
 const app = express();
 
 //#region conexão
@@ -34,6 +35,34 @@ app.post('/registrarCrianca', (req, res)=>{
         console.log('Erro: ' + err + "\nResultado:" + result);
         res.send(result);
     })
+});
+
+app.post('/inserirDesejo', (req,res)=>{
+    const { codCrianca } = req.body;
+    const { desejo } = req.body;
+
+    let sql = "UPDATE Crianca SET desejo = ? WHERE codCrianca = ?"
+
+
+    db.query(sql, [desejo , codCrianca], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        res.send(result);
+    });
+    //console.log(nome_Res);
+});
+
+app.post('/inserirPedido', (req,res)=>{
+    const { codCrianca } = req.body;
+    const { desejo } = req.body;
+    
+    let sql = "UPDATE Crianca SET pedido = ? WHERE codCrianca = ?"
+
+
+    db.query(sql, [desejo , codCrianca], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        res.send(result);
+    });
+    //console.log(nome_Res);
 });
 
 app.post('/loginCrianca', (req, res)=>{
@@ -242,14 +271,14 @@ app.post('/getOrdem', (req, res)=>{//aaaaaa
 });
 
 app.post('/vizualizarOrdem', (req,res)=>{//aaaaaaaaa
-    const { codParabens } = req.body;
-    const { vizualizado } = req.body;
-
+    const { codOrdem } = req.body;
+    const { visto } = req.body;
+    console.log(codOrdem)
     let sql = "UPDATE Ordem SET visto = ? WHERE codOrdem = ?"
 
 
-    db.query(sql, [vizualizado , codParabens], (err, result) =>{
-        console.log('Erro: ' + err + "\nResultado:" + result);
+    db.query(sql, [visto , codOrdem], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + JSON.stringify(result));
         res.send(result);
     })
     //console.log(nome_Res);
