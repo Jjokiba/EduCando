@@ -35,8 +35,8 @@ export default function TelaInicialCrianca({ navigation, route }){
                         cor={cores.roxoClaro}
                         valor={'Criar tarefa'}
                         //width={'80%'}
-                        disabled={true}
-                        acao={() => console.log("pato")}
+                        //disabled={true}
+                        acao={() => navigation.navigate('Criar Tarefa', {navigation})}
                         />
                 </View>
                 
@@ -44,25 +44,25 @@ export default function TelaInicialCrianca({ navigation, route }){
                     <BotaoGeral 
                         cor={cores.roxoClaro}
                         valor={'Desejo'}
-                        disabled={true}
+                        //disabled={true}
                         //width={'40%'}
-                        acao={ () => console.log("pato")}
+                        acao={ () => navigation.navigate('Pedido', {navigation})}
                         />
                     <BotaoGeral 
                         cor={cores.roxoClaro}
                         valor={'Diversão'}
-                        acao={ () => console.log("pato")}
+                        acao={ () => navigation.navigate('Diversao', {navigation})}
 
                         //width={'40%'}
-                        disabled={true}
+                        //disabled={true}
                         />
                 </View>
                 <View style={style.botoesInline}>
                     <BotaoGeral 
                         cor={cores.roxoClaro}
                         valor={'Tarefas'}
-                        disabled={true}
-                        acao={ () => navigation.navigate('Historico de Ordem', {navigation})}
+                        //disabled={true}
+                        acao={ () => navigation.navigate('Tarefas', {navigation})}
                         />
                     <BotaoGeral 
                         cor={cores.roxoClaro}
@@ -71,26 +71,13 @@ export default function TelaInicialCrianca({ navigation, route }){
                         acao={ () => navigation.navigate('Historico de Ordem', {navigation})}
                         />
                 </View>
-                <View >
-                    <BotaoGeral 
-                        cor={cores.roxoClaro}
-                        valor={'Parabens exa'}
-                        acao={ () => (console.log(JSON.stringify(route.params.user.CodCrianca)),
-                            console.log(route))}
-                        //width={'80%'}
-                        //disabled={true}
-                        />
-                </View>
-
                 <View style={style.botoesInline}>
                     <BotaoGeral 
                         cor={cores.roxoClaro}
                         valor={'Parabens'}
                         width={'40%'}
-                        disabled={true}
-                        acao={ () => (console.log(JSON.stringify(route.params.user.CodCrianca)),
-                            console.log(route))
-                        }
+                        //disabled={true}
+                        acao={() => navigation.navigate('Historico de Parabens', {navigation})}
                         />
                     <BotaoGeral 
                         cor={cores.roxoClaro}

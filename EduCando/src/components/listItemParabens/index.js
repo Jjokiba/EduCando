@@ -9,12 +9,10 @@ import Moment from 'moment';
 
 
 async function vizualizar(parabens ,cod, funcaoReload){
-  console.log("vai se fuder");
   if (parabens) {
-    await Axios.post("http://192.168.1.195:3001/vizualizarParabens",{ codParabens : cod, concluido : concluido});  
+    await Axios.post("http://192.168.1.195:3001/vizualizarParabens",{ codParabens : cod, visto : 1});  
   }
   else{
-    console.log("vai se fuder")
     await Axios.post("http://192.168.1.195:3001/vizualizarOrdem",{ codOrdem : cod, visto : 1});
   }
   
@@ -27,12 +25,10 @@ function info(){
 
 function ItemParabens({cod ,titulo, desc, data_parabens, vizualizado, crianca, parabens, funcaoReload }) {//parabens informa se é um item de ordem ou de parabens a ser visualizado
     useEffect(() => {
-      // write your code here, it's like componentWillMount
       if (crianca && !vizualizado) 
       {
         vizualizar(parabens, cod, funcaoReload);
       } 
-      //onScreenLoad();
     }, [])
 
     return (

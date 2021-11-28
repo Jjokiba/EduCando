@@ -25,6 +25,11 @@ import listaOrdem from './src/telas/Adulto/ListaOrdem/index.js';
 import VisaoGeral from './src/telas/Adulto/VisaoGeral/index.js';
 import TelaInicialCrianca from './src/telas/Crianca/TelaInicialCrianca/index.js';
 import listaOrdemCrianca from './src/telas/Crianca/ListarOrdens/index.js';
+import listaParabensCrianca from './src/telas/Crianca/ListarParabens/index.js';
+import CriarTarefaCrianca from './src/telas/Crianca/CriarTarefaCrianca/index.js';
+import CriarPedido from './src/telas/Crianca/CriarPedido/index.js';
+import listaTarefasCrianca from './src/telas/Crianca/ListarTarefasCrianca/index.js';
+import CriarDiversao from './src/telas/Crianca/CriarDiversao/index.js';
 
 export default function App() {
   
@@ -72,6 +77,11 @@ export default function App() {
             <>
               <Stack.Screen name ='Tela Inicial Crianca' component={TelaInicialCrianca} initialParams={{ user: user, setUser: setUser }}/>
               <Stack.Screen name ='Historico de Ordem' component={listaOrdemCrianca} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Historico de Parabens' component={listaParabensCrianca} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Tarefas' component={listaTarefasCrianca} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Criar Tarefa' component={CriarTarefaCrianca} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Pedido' component={CriarPedido} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Diversao' component={CriarDiversao} initialParams={{ user: user, setUser: setUser }}/>
             </>
           )
           

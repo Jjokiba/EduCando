@@ -37,32 +37,48 @@ app.post('/registrarCrianca', (req, res)=>{
     })
 });
 
-app.post('/inserirDesejo', (req,res)=>{
+app.post('/selectCrianca', (req, res)=>{
     const { codCrianca } = req.body;
-    const { desejo } = req.body;
 
-    let sql = "UPDATE Crianca SET desejo = ? WHERE codCrianca = ?"
+    let sql = "SELECT * FROM crianca WHERE CodCrianca = ?"
+    console.log(codCrianca)
 
-
-    db.query(sql, [desejo , codCrianca], (err, result) =>{
+    db.query(sql, [codCrianca], (err, result) =>{
         console.log('Erro: ' + err + "\nResultado:" + result);
-        res.send(result);
-    });
-    //console.log(nome_Res);
+        if(result){
+            console.log(JSON.stringify(result))
+            res.send(result);
+        } 
+    })
 });
 
 app.post('/inserirPedido', (req,res)=>{
     const { codCrianca } = req.body;
-    const { desejo } = req.body;
-    
-    let sql = "UPDATE Crianca SET pedido = ? WHERE codCrianca = ?"
+    const { pedido } = req.body;
+    const { entusiasmo } = req.body;
+    //entusiasmo = parseInt(entusiasmo);
 
+    console.log("CodCrianca: " + codCrianca + "\nPedido: " + pedido + "\nentusiasmo: " + entusiasmo);
+    let sql = "UPDATE Crianca SET pedido = ?  WHERE codCrianca=?"
 
-    db.query(sql, [desejo , codCrianca], (err, result) =>{
-        console.log('Erro: ' + err + "\nResultado:" + result);
+    db.query(sql, [pedido, entusiasmo, codCrianca], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + JSON.stringify(result));
         res.send(result);
     });
-    //console.log(nome_Res);
+
+});
+
+app.post('/inserirDiversao', (req,res)=>{
+    const { codCrianca } = req.body;
+    const { diversao } = req.body;
+    //entusiasmo = parseInt(entusiasmo);
+    //console.log("CodCrianca: " + codCrianca + "\nPedido: " + pedido + "\nentusiasmo: " + entusiasmo);
+    let sql = "UPDATE Crianca SET pedido = ?  WHERE codCrianca=?"
+
+    db.query(sql, [diversao, codCrianca], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + JSON.stringify(result));
+        res.send(result);
+    });
 });
 
 app.post('/loginCrianca', (req, res)=>{
