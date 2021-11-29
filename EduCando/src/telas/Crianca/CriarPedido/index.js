@@ -15,7 +15,7 @@ export default function CriarPedido({ navigation, route }){
         pedido: null,
         entusiasmo: null,
         //data_tarefa: null,
-        CodCrianca: route.params.user.FK_CodCrianca
+        codCrianca: route.params.user.CodCrianca
     }));
 
     const [pedido, setPedido] = useState(null);
@@ -59,7 +59,7 @@ export default function CriarPedido({ navigation, route }){
         if(teste){
             Axios.post('http://192.168.1.195:3001/inserirPedido', {
                 pedido: values.pedido,
-                CodCrianca: route.params.user.CodCrianca,
+                codCrianca: values.codCrianca,
                 //FK_CodResponsavel: values.FK_CodResponsavel,
                 entusiasmo : parseInt(values.entusiasmo)
             }).then((response) =>{

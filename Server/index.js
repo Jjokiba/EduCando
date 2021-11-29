@@ -52,6 +52,23 @@ app.post('/selectCrianca', (req, res)=>{
     })
 });
 
+app.post('/selectVisaoGeral', (req, res)=>{
+    const { codCrianca } = req.body;
+    console.log(codCrianca);
+    let sql = `select c.*,avg(t.concluido) as adaptacao from crianca c 
+                    left join tarefas t on c.CodCrianca = t.FK_CodCrianca
+                    where CodCrianca = ?`
+
+    db.query(sql, [codCrianca], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        if(result){
+            console.log(JSON.stringify(result))
+            res.send(result);
+        } 
+    })
+});
+
+
 app.post('/inserirPedido', (req,res)=>{
     const { codCrianca } = req.body;
     const { pedido } = req.body;
@@ -59,7 +76,7 @@ app.post('/inserirPedido', (req,res)=>{
     //entusiasmo = parseInt(entusiasmo);
 
     console.log("CodCrianca: " + codCrianca + "\nPedido: " + pedido + "\nentusiasmo: " + entusiasmo);
-    let sql = "UPDATE Crianca SET pedido = ?  WHERE codCrianca=?"
+    let sql = "UPDATE Crianca SET pedido=?, entusiasmo=? WHERE codCrianca=?";
 
     db.query(sql, [pedido, entusiasmo, codCrianca], (err, result) =>{
         console.log('Erro: ' + err + "\nResultado:" + JSON.stringify(result));
@@ -72,8 +89,8 @@ app.post('/inserirDiversao', (req,res)=>{
     const { codCrianca } = req.body;
     const { diversao } = req.body;
     //entusiasmo = parseInt(entusiasmo);
-    //console.log("CodCrianca: " + codCrianca + "\nPedido: " + pedido + "\nentusiasmo: " + entusiasmo);
-    let sql = "UPDATE Crianca SET pedido = ?  WHERE codCrianca=?"
+    console.log("CodCrianca: " + codCrianca + "\nDiversao: " + diversao);
+    let sql = "UPDATE Crianca SET diversao=? WHERE codCrianca=?";
 
     db.query(sql, [diversao, codCrianca], (err, result) =>{
         console.log('Erro: ' + err + "\nResultado:" + JSON.stringify(result));
@@ -131,6 +148,22 @@ app.post('/loginAdulto', (req, res)=>{
     })
 });
 
+app.post('/getResponsavelID', (req, res)=>{
+    const { FK_CodCrianca } = req.body;
+
+    let sql = "SELECT CodResponsavel FROM responsavel WHERE FK_CodCrianca = ?";
+
+    db.query(sql, [FK_CodCrianca], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        if(result){
+            res.send(result);
+        } 
+        else{
+            res.send("");
+        }
+    })
+});
+
 app.post('/registrarAdulto', (req, res)=>{
     const { nome_Res } = req.body;
     const { email_Res } = req.body;
@@ -159,8 +192,8 @@ app.post('/registrarTarefa', (req, res)=>{
     //const { concluido } = req.body; false automatic
     const { FK_CodCrianca } = req.body;
     const { FK_CodResponsavel } = req.body;
-
-    let sql = "INSERT INTO Tarefas ( titulo_Tarefa, descricao_Tarefa, dataFinal_tarefa, FK_CodCrianca, FK_CodResponsavel) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y %h:%i'), ?, ?)"
+    console.log(dataFinal_Tarefa);
+    let sql = "INSERT INTO Tarefas ( titulo_Tarefa, descricao_Tarefa, dataFinal_tarefa, FK_CodCrianca, FK_CodResponsavel) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y %H:%i'), ?, ?)"
 
 
     db.query(sql, [titulo_Tarefa, descricao_Tarefa, dataFinal_Tarefa, FK_CodCrianca, FK_CodResponsavel], (err, result) =>{
@@ -173,7 +206,7 @@ app.post('/registrarTarefa', (req, res)=>{
 app.post('/getTarefasCrianca', (req, res)=>{
     const { FK_CodCrianca } = req.body;
 
-    let sql = "SELECT * FROM Tarefas WHERE FK_CodCrianca = ? AND concluido = 0;"
+    let sql = "SELECT * FROM Tarefas WHERE FK_CodCrianca = ? AND concluido = 0 order by data_tarefa desc;"
 
 
     db.query(sql, [FK_CodCrianca], (err, result) =>{
@@ -223,7 +256,7 @@ app.post('/registrarParabens', (req, res)=>{
 app.post('/getParabens', (req, res)=>{
     const { FK_CodCrianca } = req.body;
 
-    let sql = "SELECT * FROM Parabens WHERE FK_CodCrianca = ?"
+    let sql = "SELECT * FROM Parabens WHERE FK_CodCrianca = ? order by data_Parabens desc"
 
 
     db.query(sql, [FK_CodCrianca], (err, result) =>{
@@ -274,7 +307,7 @@ app.post('/registrarOrdem', (req, res)=>{
 app.post('/getOrdem', (req, res)=>{//aaaaaa
     const { FK_CodCrianca } = req.body;
 
-    let sql = "SELECT * FROM ordem WHERE FK_CodCrianca = ?"
+    let sql = "SELECT * FROM ordem WHERE FK_CodCrianca = ? order by data_Ordem desc"
 
 
     db.query(sql, [FK_CodCrianca], (err, result) =>{
@@ -294,6 +327,34 @@ app.post('/vizualizarOrdem', (req,res)=>{//aaaaaaaaa
 
 
     db.query(sql, [visto , codOrdem], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + JSON.stringify(result));
+        res.send(result);
+    })
+    //console.log(nome_Res);
+});
+
+//#endregion
+
+//#region Geral Usage
+app.post('/getPendenciasCrianca', (req,res)=>{//aaaaaaaaa
+    const { FK_CodCrianca } = req.body;
+    
+    console.log(FK_CodCrianca)
+    let sql = `SELECT (SELECT COUNT(*) 
+                            FROM tarefas 
+                            WHERE FK_CodCrianca = ?
+                            AND concluido = 0) AS tarefas,
+                        (SELECT COUNT(*)
+                            FROM  ordem 
+                            WHERE FK_CodCrianca = ?
+                            AND visto = 0) AS ordens,
+                        (SELECT COUNT(*)
+                            FROM parabens
+                            WHERE FK_CodCrianca = ?
+                            AND visto = 0) AS parabens
+                FROM dual;`;
+
+    db.query(sql, [ FK_CodCrianca, FK_CodCrianca, FK_CodCrianca ], (err, result) =>{
         console.log('Erro: ' + err + "\nResultado:" + JSON.stringify(result));
         res.send(result);
     })

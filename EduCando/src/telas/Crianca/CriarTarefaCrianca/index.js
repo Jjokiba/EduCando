@@ -15,7 +15,7 @@ export default function CriarTarefaCrianca({ navigation, route }){
         titulo_Tarefa: null,
         descricao_Tarefa: null,
         //data_tarefa: null,
-        dataFinal_tarefa: null,
+        dataFinal_Tarefa: null,
         FK_CodCrianca: route.params.user.CodCrianca,
         FK_CodResponsavel: route.params.user.FK_CodResponsavel
     }));
@@ -78,12 +78,14 @@ export default function CriarTarefaCrianca({ navigation, route }){
         var teste = await validaCampos(); 
         //console.log(teste);
         if(teste){
+            var idResponsavel = await Axios.post('http://192.168.1.195:3001/getResponsavelID', {FK_CodCrianca : values.FK_CodCrianca});
+            console.log(values.dataFinal_tarefa);
             Axios.post('http://192.168.1.195:3001/registrarTarefa', {
                 titulo_Tarefa: values.titulo_Tarefa,
                 descricao_Tarefa: values.descricao_Tarefa,
-                dataFinal_tarefa: values.dataFinal_tarefa,
+                dataFinal_Tarefa: maskedDataFinal,
                 FK_CodCrianca: values.FK_CodCrianca,
-                FK_CodResponsavel: values.FK_CodResponsavel
+                FK_CodResponsavel: idResponsavel.data[0].CodResponsavel
             }).then((response) =>{
                 if(response.data != ""){
                     Alert.alert('Sucesso', 'Tarefa criada com sucesso!',[
@@ -122,7 +124,7 @@ export default function CriarTarefaCrianca({ navigation, route }){
                 
             </View>            
             <View>
-                <Image source={require('../../../assets/images/corujao.png')}
+                <Image source={require('../../../assets/images/corujinha.png')}
                                     style={{width:150,height:150, alignSelf:'center'}}/>
             </View>
 

@@ -9,8 +9,9 @@ export default StyleSheet.create({
         margin: 15
     },
     conteudoCard:{
+        backgroundColor: cores.roxoClaro,
         flexDirection:'column',
-        height: '50%',
+        height: '55%',
         alignItems:'center',
         justifyContent: 'space-around',
         margin: 10,
@@ -19,24 +20,6 @@ export default StyleSheet.create({
     },
     caixaTexto:{
         backgroundColor:'white', 
-        width: 250,
-    },
-    botoesInline:{
-        flex:1,
-        flexDirection:'row', 
-        flexWrap:'wrap',
-        width:  290,
-        justifyContent: 'space-between',
-        margin: 10
-    },
-    bolinhaNotificação:{
-        backgroundColor:cores.azulClaro,
-        width:20, 
-        height:20,
-        position:'relative',
-        zIndex: 3, // works on ios
-        elevation: 3, // works on android
-        borderRadius:10,
-        marginLeft:-18        
+        width: 280
     }
 });

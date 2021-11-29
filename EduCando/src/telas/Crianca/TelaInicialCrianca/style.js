@@ -28,5 +28,15 @@ export default StyleSheet.create({
         width:  290,
         justifyContent: 'space-between',
         margin: 10
+    },
+    bolinhaNotificação:{
+        backgroundColor:cores.azulClaro,
+        width:20, 
+        height:20,
+        position:'relative',
+        zIndex: 3, // works on ios
+        elevation: 3, // works on android
+        borderRadius:10,
+        marginLeft:-18        
     }
 });

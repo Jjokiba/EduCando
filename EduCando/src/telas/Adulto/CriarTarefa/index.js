@@ -91,7 +91,7 @@ export default function CriarTarefa({ navigation, route }){
             Axios.post('http://192.168.1.195:3001/registrarTarefa', {
                 titulo_Tarefa: values.titulo_Tarefa,
                 descricao_Tarefa: values.descricao_Tarefa,
-                dataFinal_tarefa: values.dataFinal_tarefa,
+                dataFinal_Tarefa: maskedDataFinal,
                 FK_CodCrianca: values.FK_CodCrianca,
                 FK_CodResponsavel: values.FK_CodResponsavel
             }).then((response) =>{

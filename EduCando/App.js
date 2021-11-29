@@ -64,7 +64,7 @@ export default function App() {
         {user ? (
           user.tipoConta ?( // adulto
             <>
-              <Stack.Screen name ='Tela Inicial Adulto' component={TelaInicialAdulto} initialParams={{ setUser: setUser }}/>
+              <Stack.Screen name ='Tela Inicial Adulto' component={TelaInicialAdulto} initialParams={{user: user, setUser: setUser }}/>
               <Stack.Screen name ='Visao geral' component={VisaoGeral} initialParams={{ user: user, setUser: setUser }}/>
               <Stack.Screen name ='Criar Tarefa' component={CriarTarefa} initialParams={{ user: user, setUser: setUser }}/>
               <Stack.Screen name ='Ver Tarefas' component={listaTarefas} initialParams={{ user: user, setUser: setUser }}/>
@@ -73,7 +73,7 @@ export default function App() {
               <Stack.Screen name ='Historico de parabenização' component={listaParabens} initialParams={{ user: user, setUser: setUser }}/>
               <Stack.Screen name ='Historico de Ordem' component={listaOrdem} initialParams={{ user: user, setUser: setUser }}/>
             </>
-          ) : (
+          ) : (//criança
             <>
               <Stack.Screen name ='Tela Inicial Crianca' component={TelaInicialCrianca} initialParams={{ user: user, setUser: setUser }}/>
               <Stack.Screen name ='Historico de Ordem' component={listaOrdemCrianca} initialParams={{ user: user, setUser: setUser }}/>

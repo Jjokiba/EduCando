@@ -14,10 +14,13 @@ export default (pequeno, cor, fonteClara, widthBotao, disabled) => StyleSheet.cr
       width: 0,
       height: 2,
     },
+    alignSelf:'center',
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-    borderRadius: 3
+    borderRadius: 3,
+    zIndex: 1, // works on ios
+    elevation: 1, // works on android
   },
   valor: {
     opacity: disabled ? 0.5 : 1,

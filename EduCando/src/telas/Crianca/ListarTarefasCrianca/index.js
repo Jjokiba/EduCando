@@ -20,10 +20,6 @@ export default function listaTarefasCrianca({ navigation, route }){
         setListaTarefas(await Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.CodCrianca}));
     }
 
-    async function handleRefresh() {
-        setListaTarefas(await Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.CodCrianca}));
-    }
-
   if (!IsReady) {
     return <AppLoading startAsync={handleClickButton()} 
              onFinish={() => {SetIsReady(true);}}
@@ -43,7 +39,7 @@ export default function listaTarefasCrianca({ navigation, route }){
                 </View>    
             </View>            
             <View>
-                <Image source={require('../../../assets/images/corujao.png')}
+                <Image source={require('../../../assets/images/corujinha.png')}
                                     style={{width:150,height:150, alignSelf:'center'}}/>
             </View>
 
@@ -66,7 +62,7 @@ export default function listaTarefasCrianca({ navigation, route }){
                             titulo_Tarefa={item.titulo_Tarefa} 
                             desc_Tarefa={item.descricao_Tarefa}
                             data_tarefa={item.data_tarefa}
-                            data_FinalTarefa={item.data_FinalTarefa}
+                            dataFinal_tarefa={item.dataFinal_tarefa}
                             funcaoReload={() => SetIsReady(false)}
                             />
                             }

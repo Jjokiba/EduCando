@@ -12,20 +12,19 @@ import { useState } from "react/cjs/react.development";
 export default function CriarDiversao({ navigation, route }){
     //route.params.user
     const [values, SetValues] = useState(({
-        pedido: null,
-        entusiasmo: null,
+        diversao: null,
         //data_tarefa: null,
-        CodCrianca: route.params.user.FK_CodCrianca
+        CodCrianca: route.params.user.CodCrianca
     }));
 
-    const [pedido, setPedido] = useState(null);
+    const [crianca, setCrianca] = useState(null);
 
     function validaCampos(){
         var msg = 'Alguns pontos estão faltando:' ;
         var validacao = true;
 
-        if(values.pedido == null){
-            msg += "\nO Pedido não foi informado.\n";
+        if(values.diversao == null){
+            msg += "\nA diversão não foi informada.\n";
             validacao = false;
         }
 
@@ -37,9 +36,9 @@ export default function CriarDiversao({ navigation, route }){
         return validacao;
     }
 
-    async function getPedido() {
+    async function getCrianca() {
         //console.log(route.params.user.CodCrianca);
-        setPedido(await Axios.post("http://192.168.1.195:3001/selectCrianca",{ codCrianca : route.params.user.CodCrianca}));
+        setCrianca(await Axios.post("http://192.168.1.195:3001/selectCrianca",{ codCrianca : route.params.user.CodCrianca}));
     }
 
     //#region HandleChanges
@@ -58,13 +57,12 @@ export default function CriarDiversao({ navigation, route }){
         //console.log(teste);
         if(teste){
             Axios.post('http://192.168.1.195:3001/inserirDiversao', {
-                pedido: values.pedido,
-                CodCrianca: route.params.user.CodCrianca,
+                codCrianca: route.params.user.CodCrianca,
+                diversao: values.diversao
                 //FK_CodResponsavel: values.FK_CodResponsavel,
-                entusiasmo : parseInt(values.entusiasmo)
             }).then((response) =>{
                 if(response.data != ""){
-                    Alert.alert('Sucesso', 'Pedido Criado com sucesso!',[
+                    Alert.alert('Sucesso', 'Diversão registrada!',[
                         {
                           text: "Voltar Para o inicio",
                           onPress: () => navigation.goBack(),
@@ -74,7 +72,7 @@ export default function CriarDiversao({ navigation, route }){
                 }
                 else
                 {
-                    Alert.alert('Erro', 'Falha ao tentar criar o pedido.',[
+                    Alert.alert('Erro', 'Falha ao tentar criar o registro.',[
                         {
                           text: "Tentar novamente",
                           onPress: () => console.log(""),
@@ -88,7 +86,7 @@ export default function CriarDiversao({ navigation, route }){
     };
 
     useEffect(async () => {
-        await getPedido();
+        await getCrianca();
     }, [])
 
     return (
@@ -110,13 +108,13 @@ export default function CriarDiversao({ navigation, route }){
 
             <View style={styles.conteudoCard}>
                 <View>
-                    <Text >
-                        Pedido: 
+                    <Text>
+                        Informe o que mais te diverte: 
                     </Text>
                     <View style={styles.caixaTexto}>
                         <TextInput 
-                                placeholder='Mensagem do pedido'
-                                onChangeText={e => handleChangeValues(e, 'pedido')}
+                                placeholder='Diversão'
+                                onChangeText={e => handleChangeValues(e, 'diversao')}
                                 multiline
                                 numberOfLines={2}
                                 style={{padding: 5, textAlignVertical: 'top'}}
@@ -125,14 +123,14 @@ export default function CriarDiversao({ navigation, route }){
                 </View>
 
                 <View>
-                    <Text>Pedido Atual:</Text>
-                    {pedido == null ? <Text>Não definido</Text> : <Text>{pedido.data[0].diversao}</Text>}
+                    <Text>Diversao Atual:</Text>
+                    {crianca == null ? <Text>Não definido</Text> : <Text>{crianca.data[0].diversao != null ? crianca.data[0].diversao : "Não Definido"}</Text>}
                 </View>
             </View>
             <View style={{alignSelf:'center'}}>
                 <Botao
                     cor={cores.verde}
-                    valor={'Criar Pedido'}
+                    valor={'Alterar Diversão'}
                     acao={() => handleClickButton()}
                 />
             </View>

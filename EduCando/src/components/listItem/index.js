@@ -14,7 +14,7 @@ async function completaTarefa(codTarefa, concluido, funcaoReload){
   funcaoReload();
 }
 
-function ItemTarefa({codTarefa ,titulo_Tarefa, desc_Tarefa, data_tarefa, dataFinal_Tarefa, funcaoReload }) {
+function ItemTarefa({codTarefa ,titulo_Tarefa, desc_Tarefa, data_tarefa, dataFinal_tarefa, funcaoReload }) {
     return (
             <View style={styleTarefa.card}>
               <Text style={{display:'none'}}>{codTarefa}</Text>
@@ -25,7 +25,7 @@ function ItemTarefa({codTarefa ,titulo_Tarefa, desc_Tarefa, data_tarefa, dataFin
               <Text>Data da Tarefa: </Text>
                 <Text>{data_tarefa == null ? 'Não Informado' : Moment(data_tarefa).format('DD/MM/YYYY HH:mm')}</Text>
               <Text>Data Final para Tarefa: </Text>
-                <Text>{dataFinal_Tarefa == null ? 'Não Informado' : data}</Text>
+                <Text>{dataFinal_tarefa == null ? 'Não Informado' : Moment(dataFinal_tarefa).format('DD/MM/YYYY HH:mm')}</Text>
                 <View style={styleTarefa.inlineflex}>
                     <TouchableOpacity onPress={() => completaTarefa(codTarefa, 1, funcaoReload)}>
                         <FontAwesomeIcon icon={ faCheckCircle } size={ 32 } style={styleTarefa.iconzinho}/>

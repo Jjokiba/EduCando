@@ -8,7 +8,7 @@ import Axios from  'axios';
 import AppLoading from "expo-app-loading";
 import ItemTarefa from "../../../components/listItem";
 
-export default function listaTarefas({ navigation, route }){
+export default function listaTarefasCrianca({ navigation, route }){
     
 
     const [IsReady, SetIsReady] = useState(false);
@@ -17,10 +17,11 @@ export default function listaTarefas({ navigation, route }){
     //this.state ={ refresh : false }
 
     async function handleClickButton() {
-        setListaTarefas(await Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.FK_CodCrianca}));
-        //console.log(JSON.stringify(listaTarefasConcluidas._W.data));//????????????
-        //console.log(JSON.stringify(listaTarefasConcluidas.data));//????????????
-        //console.log('pepino crianca: ' + route.params.user.FK_CodCrianca );
+        setListaTarefas(await Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.CodCrianca}));
+    }
+
+    async function handleRefresh() {
+        setListaTarefas(await Axios.post("http://192.168.1.195:3001/getTarefasCrianca",{ FK_CodCrianca : route.params.user.CodCrianca}));
     }
 
   if (!IsReady) {
@@ -42,7 +43,7 @@ export default function listaTarefas({ navigation, route }){
                 </View>    
             </View>            
             <View>
-                <Image source={require('../../../assets/images/corujao.png')}
+                <Image source={require('../../../assets/images/corujinha.png')}
                                     style={{width:150,height:150, alignSelf:'center'}}/>
             </View>
 
