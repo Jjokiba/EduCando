@@ -53,3 +53,16 @@ CREATE TABLE `educando`.`responsavel` (
   PRIMARY KEY (`codOrdem`),
   FOREIGN KEY (`FK_CodResponsavel`) REFERENCES `Responsavel`(`CodResponsavel`),
   FOREIGN KEY (`FK_CodCrianca`) REFERENCES `crianca`(`CodCrianca`));
+
+  CREATE TABLE `educando`.`mensagem`(
+  `codMensagem` INT NOT NULL AUTO_INCREMENT,
+  `mensagem` VARCHAR(200) NULL,
+  `data_Mensagem` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `remetente` VARCHAR(20) NULL,
+  `visto` BOOLEAN DEFAULT 0,
+  `FK_CodCrianca` INT NOT NULL,
+  `FK_CodResponsavel` INT NOT NULL,
+  PRIMARY KEY (`codOrdem`),
+  FOREIGN KEY (`FK_CodResponsavel`) REFERENCES `Responsavel`(`CodResponsavel`),
+  FOREIGN KEY (`FK_CodCrianca`) REFERENCES `crianca`(`CodCrianca`));
+  

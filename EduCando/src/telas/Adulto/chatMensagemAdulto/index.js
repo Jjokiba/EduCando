@@ -9,8 +9,9 @@ import AppLoading from "expo-app-loading";
 import ItemMensagem from "../../../components/listItemMensagem";
 import { faIcons, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import ItemMensagemAdulto from "../../../components/listItemMensagemAdulto";
 
-export default function chatMensagemCrianca({ navigation, route }){
+export default function chatMensagemAdulto({ navigation, route }){
     
 
     const [IsReady, SetIsReady] = useState(false);
@@ -18,9 +19,9 @@ export default function chatMensagemCrianca({ navigation, route }){
     const [mensagemEscrita, setMensagemEscrita] = useState(null);
 
     async function sendMessage() {
-        var idResponsavel = await Axios.post('http://192.168.1.195:3001/getResponsavelID', {FK_CodCrianca : route.params.user.CodCrianca});
-        console.log("idzito: " + idResponsavel.data[0].CodResponsavel + "\nMensag:" + mensagemEscrita + "\ncod crianca:" + route.params.user.CodCrianca)
-        await Axios.post("http://192.168.1.195:3001/sendMensagem",{ mensagem : mensagemEscrita, remetente : "Crianca" , FK_CodCrianca : route.params.user.CodCrianca, FK_CodResponsavel : idResponsavel.data[0].CodResponsavel});
+        //var idResponsavel = await Axios.post('http://192.168.1.195:3001/getResponsavelID', {FK_CodCrianca : route.params.user.CodCrianca});
+        //console.log("idzito: " + idResponsavel.data[0].CodResponsavel + "\nMensag:" + mensagemEscrita + "\ncod crianca:" + route.params.user.CodCrianca)
+        await Axios.post("http://192.168.1.195:3001/sendMensagem",{ mensagem : mensagemEscrita, remetente : "Responsavel" , FK_CodCrianca : route.params.user.FK_CodCrianca, FK_CodResponsavel : route.params.user.codResponsavel});
         SetIsReady(false);
     }
 
@@ -35,8 +36,8 @@ export default function chatMensagemCrianca({ navigation, route }){
     //this.state ={ refresh : false }
 
     async function handleClickButton() {
+        //setListaMensagens(null);
         setListaMensagens(await Axios.post("http://192.168.1.195:3001/getMensagens",{ FK_CodCrianca : route.params.user.CodCrianca}));
-        
     }
 
   if (!IsReady) {
@@ -58,7 +59,7 @@ export default function chatMensagemCrianca({ navigation, route }){
                 </View>    
             </View>            
             <View>
-                <Image source={require('../../../assets/images/corujinha.png')}
+                <Image source={require('../../../assets/images/corujao.png')}
                                     style={{width:100,height:100, alignSelf:'center'}}/>
             </View>
 
@@ -76,7 +77,7 @@ export default function chatMensagemCrianca({ navigation, route }){
                             keyextractor={(x, i) => i}
                             //refresh={refresh}
                             renderItem={({ item }) => 
-                            <ItemMensagem 
+                            <ItemMensagemAdulto
                                 codMensagem={item.codMensagem}
                                 mensagem={item.mensagem} 
                                 data_Mensagem={item.data_Mensagem}
@@ -86,7 +87,7 @@ export default function chatMensagemCrianca({ navigation, route }){
                                 nome_Crianca={item.nome_Crianca}
                                 nome_Res={item.nome_Res}
                                 visto={item.visto}
-                                funcaoReload={() => (navigation.navigate('Chat'))}
+                                funcaoReload={() => navigation.navigate('Chat')}
                             />
                             }
                             

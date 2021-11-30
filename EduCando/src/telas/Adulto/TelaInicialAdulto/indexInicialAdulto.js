@@ -14,11 +14,12 @@ export default function TelaInicialAdulto({ navigation, route }){
         {data : [{
             tarefas : 0,
             ordens: 0,
-            parabens: 0
+            parabens: 0,
+            mensagemResponsavel :0
         }]})
         
         
-    navigation.addListener('focus', async () => {
+    navigation.addListener('focus',async () => {
         console.log(route.params.user.FK_CodCrianca);
         setNotificacoes(await Axios.post("http://192.168.1.195:3001/getPendenciasCrianca",{ FK_CodCrianca : route.params.user.FK_CodCrianca}));
     });
@@ -104,8 +105,9 @@ export default function TelaInicialAdulto({ navigation, route }){
                         cor={cores.roxoClaro}
                         valor={'Mandar mensagem'}
                         width={'40%'}
-                        disabled={true}
+                        acao={ () => navigation.navigate('Chat', {navigation})}
                         />
+                        {notificacoes ?  notificacoes.data[0].mensagemResponsavel == 0 ? <View/>: <View style={styleInicialAdulto.bolinhaNotificação}><Text style={{textAlign: 'center'}}>{notificacoes.data[0].mensagemResponsavel}</Text></View>:<View/> }
                 </View>
 
             </View>

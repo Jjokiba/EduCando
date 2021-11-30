@@ -335,6 +335,60 @@ app.post('/vizualizarOrdem', (req,res)=>{//aaaaaaaaa
 
 //#endregion
 
+//#region Mensagem
+
+app.post('/getMensagens', (req, res)=>{//aaaaaa
+    const { FK_CodCrianca } = req.body;
+
+    let sql = `SELECT m.*, c.nome_Crianca,r.nome_Res  FROM mensagem m 
+                    left join responsavel r on m.FK_CodResponsavel = r.codResponsavel 
+                    left join crianca c on m.FK_CodCrianca = c.CodCrianca
+                WHERE m.FK_CodCrianca = 30 order by data_Mensagem desc`;
+
+
+    db.query(sql, [FK_CodCrianca], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + result);
+        if(err) res.send(err)
+        else res.send(result);
+    })
+    //console.log(nome_Res);
+    
+});
+
+app.post('/sendMensagem', (req, res)=>{//aaaaaa
+    const { mensagem } = req.body;
+    const { remetente } = req.body;
+    const { FK_CodCrianca } = req.body;
+    const { FK_CodResponsavel } = req.body;
+
+
+
+    let sql = "INSERT INTO mensagem ( mensagem, remetente, FK_CodResponsavel, FK_CodCrianca) VALUES (?, ?, ?, ?)"
+
+
+    db.query(sql, [mensagem, remetente, FK_CodResponsavel, FK_CodCrianca], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + JSON.stringify(result));
+        if(err) res.send(err)
+        else res.send(result)
+    })
+    //console.log(nome_Res); 
+});
+
+app.post('/vizualizarMensagem', (req, res)=>{//aaaaaa
+    const { codMensagem } = req.body;
+    let sql = "UPDATE mensagem SET visto = 1 WHERE codMensagem = ?"
+
+
+    db.query(sql, [codMensagem], (err, result) =>{
+        console.log('Erro: ' + err + "\nResultado:" + JSON.stringify(result));
+        if(err) res.send(err)
+        else res.send(result)
+    })
+    //console.log(nome_Res); 
+});
+
+//#endregion
+
 //#region Geral Usage
 app.post('/getPendenciasCrianca', (req,res)=>{//aaaaaaaaa
     const { FK_CodCrianca } = req.body;
@@ -351,7 +405,17 @@ app.post('/getPendenciasCrianca', (req,res)=>{//aaaaaaaaa
                         (SELECT COUNT(*)
                             FROM parabens
                             WHERE FK_CodCrianca = ?
-                            AND visto = 0) AS parabens
+                            AND visto = 0) AS parabens,
+                        (SELECT COUNT(*)
+                            FROM mensagem
+                            WHERE FK_CodCrianca = 30
+                            AND visto = 0
+                            AND remetente = 'Responsavel') AS mensagemCrianca,
+                        (SELECT COUNT(*)
+                            FROM mensagem
+                            WHERE FK_CodCrianca = 30
+                            AND visto = 0
+                            AND remetente = 'Crianca') AS mensagemResponsavel
                 FROM dual;`;
 
     db.query(sql, [ FK_CodCrianca, FK_CodCrianca, FK_CodCrianca ], (err, result) =>{
@@ -362,3 +426,4 @@ app.post('/getPendenciasCrianca', (req,res)=>{//aaaaaaaaa
 });
 
 //#endregion
+

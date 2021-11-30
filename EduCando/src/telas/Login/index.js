@@ -134,6 +134,7 @@ export default function LoginScreen({ navigation, route }){
                             name={(tipoConta ? 'senha_Res' : 'senha_Crianca')}
                             placeholder={(tipoConta ? 'Senha do responsavel da crianca' : 'Senha da conta da criança')}
                             onChangeText={e => handleChangeValues(e, (tipoConta ? 'senha_Res' : 'senha_Crianca'))}
+                            secureTextEntry={true}
                          ></TextInput>
                     </View>
                     

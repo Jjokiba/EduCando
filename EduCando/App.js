@@ -30,6 +30,8 @@ import CriarTarefaCrianca from './src/telas/Crianca/CriarTarefaCrianca/index.js'
 import CriarPedido from './src/telas/Crianca/CriarPedido/index.js';
 import listaTarefasCrianca from './src/telas/Crianca/ListarTarefasCrianca/index.js';
 import CriarDiversao from './src/telas/Crianca/CriarDiversao/index.js';
+import chatMensagemCrianca from './src/telas/Crianca/chatMensagemCrianca/index.js';
+import chatMensagemAdulto from './src/telas/Adulto/chatMensagemAdulto/index.js';
 
 export default function App() {
   
@@ -72,6 +74,7 @@ export default function App() {
               <Stack.Screen name ='Parabenizar' component={CriarParabenizacao} initialParams={{ user: user, setUser: setUser }}/>
               <Stack.Screen name ='Historico de parabenização' component={listaParabens} initialParams={{ user: user, setUser: setUser }}/>
               <Stack.Screen name ='Historico de Ordem' component={listaOrdem} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Chat' component={chatMensagemAdulto} initialParams={{ user: user, setUser: setUser }}/>
             </>
           ) : (//criança
             <>
@@ -82,6 +85,7 @@ export default function App() {
               <Stack.Screen name ='Criar Tarefa' component={CriarTarefaCrianca} initialParams={{ user: user, setUser: setUser }}/>
               <Stack.Screen name ='Pedido' component={CriarPedido} initialParams={{ user: user, setUser: setUser }}/>
               <Stack.Screen name ='Diversao' component={CriarDiversao} initialParams={{ user: user, setUser: setUser }}/>
+              <Stack.Screen name ='Chat' component={chatMensagemCrianca} initialParams={{ user: user, setUser: setUser }}/>
             </>
           )
           
